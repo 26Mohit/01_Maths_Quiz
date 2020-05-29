@@ -7,7 +7,7 @@ class Start:
     def __int__(self, parent):
 
         # GUI to select number of question, range of numbers and a level
-        self.start_frame = Frame(padx=20, pady=20)
+        self.start_frame = Frame(padx=10, pady=10)
         self.start_frame.grid()
 
         # Set Initial questions to zero
@@ -41,10 +41,20 @@ class Start:
                                           wrap=225, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
 
+        # Number of questions label (row 2)
+        self.questions_label = Label(self.start_frame, font="Arial 10 bold",
+                                     text="Please enter number of questions",
+                                     wrap=225, justify=CENTER)
+        self.questions_label.grid(row=2)
+
+        # Number of questions entry box and button (row 3)
+        self.entry_frame = Frame(self.start_frame,width=300)
+        self.entry_frame.grid(row=3)
+
 
 # main routine
 if __name__ == "__main__":
    root = Tk()
-   root.title("Maths Quiz Game")
-   Start(root)
+   root.title("Maths Quiz")
+   Start()
    root.mainloop()
