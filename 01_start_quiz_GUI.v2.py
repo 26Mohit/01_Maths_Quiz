@@ -38,7 +38,7 @@ class Start:
                                                " 0-100(medium mode) you would like to see in your quiz. "
                                                "please choose a range of at least 10 numbers. "
                                                "For (hard mode) the range is already set to 0-50.",
-                                          wrap=400, justify=LEFT, padx=10, pady=10)
+                                          wrap=500, justify=CENTER, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
 
         # Range of numbers Label (row 5)
@@ -47,24 +47,46 @@ class Start:
                                      wrap=275, justify=CENTER, padx=10, pady=10)
         self.range_label.grid(row=5)
 
-        # range of numbers Entry Box, Button (row 6)
+        # range of numbers Entry Boxes, Button (row 6)
         self.range_entry_frame = Frame(self.start_frame, width=200)
         self.range_entry_frame.grid(row=6)
 
-        self.range_entry = Entry(self.range_entry_frame,
-                                        font="Arial 16 bold", width=10)
-        self.range_entry.grid(row=0, column=0)
+        self.lowest_label = Label(self.range_entry_frame, font="Arial 10 italic bold",
+                                  text="Lowest", wrap=225, justify=LEFT)
+        self.lowest_label.grid(row=0, column=0)
 
-        self.select_button = Button(self.range_entry_frame,
-                                       font="Arial 14 bold",
-                                       text="Select",
-                                       command=self.check_inputs)
-        self.select_button.grid(row=0, column=1)
+        self.lowest_entry = Entry(self.range_entry_frame,
+                                        font="Arial 16 bold", width=7)
+        self.lowest_entry.grid(row=0, column=1)
 
-        self.range_error_label = Label(self.range_entry_frame, fg="maroon",
+        self.lowest_error_label = Label(self.range_entry_frame, fg="maroon",
                                         text="", font="Arial 10 bold", wrap=275,
                                         justify=LEFT)
-        self.range_error_label.grid(row=1, columnspan=2, pady=5)
+        self.lowest_error_label.grid(row=1, columnspan=2, pady=10)
+
+        self.highest_label = Label(self.range_entry_frame,font="Arial 10 italic bold",
+                                  text="Highest", wrap=225, justify=LEFT)
+        self.highest_label.grid(row=0, column=2)
+
+        self.highest_entry = Entry(self.range_entry_frame,
+                                        font="Arial 16 bold", width=7)
+        self.highest_entry.grid(row=0, column=3)
+
+        self.highest_error_label = Label(self.range_entry_frame, fg="maroon",
+                                        text="", font="Arial 10 bold", wrap=275,
+                                        justify=LEFT)
+        self.highest_error_label.grid(row=1, columnspan=2, pady=10)
+
+        self.select_button = Button(self.range_entry_frame,
+                                       font="Arial 12 bold",
+                                       text="Select", bg="#FF9933",
+                                       command=self.check_range)
+        self.select_button.grid(row=0, column=4)
+
+        # Error Label goes here
+        self.range_error_label = Label(self.range_entry_frame, fg="red", font="Arial 10 italic",
+                                        text="")
+        self.range_error_label.grid(row=1, column=2)
 
         # Levels label (row 8)
         
@@ -102,18 +124,14 @@ class Start:
         self.medium_level_button.config(state=DISABLED)
         self.hard_level_button.config(state=DISABLED)
 
-        # Error Label goes here
-        self.range_error_label = Label(self.start_frame, fg="red", font="Arial 12 italic",
-                                        text="")
-        self.range_error_label.grid(row=4)
-
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
                                   bg="#808080", fg="white", font=button_font)
         self.help_button.grid(row=12, pady=10)
 
-    def check_inputs(self):
-        selected_range = self.range_entry.get()
+    def check_range(self):
+        selected_range = self.lowest_entry.get()
+        selected_range = self.highest_entry.get()
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -121,7 +139,8 @@ class Start:
         has_errors = "no"
 
         # change background to white (for testing purposes)...
-        self.range_entry.config(bg="white")
+        self.lowest_entry.config(bg="white")
+        self.highest_entry.config(bg="white")
         self.range_error_label.config(text="")
 
         # Disable all levels buttons in case user changes mind and
@@ -131,22 +150,22 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         try:
-            selected_range = int(selected_range)
+            lowest_entry = int(selected_range)
 
-            if selected_range < 5:
+            if lowest_entry < 5:
                 has_errors = "yes"
                 error_feedback = "Sorry, the least you can play with is $5"
-            elif selected_range > 50:
+            elif lowest_entry > 50:
                 has_errors = "yes"
                 error_feedback = "Too high! The most you can risk in " \
                                  "this game is $50"
 
-            elif selected_range >= 15:
+            elif lowest_entry >= 15:
                 # enable all buttons
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
                 self.hard_level_button.config(state=NORMAL)
-            elif selected_range >= 10:
+            elif lowest_entry >= 10:
                 # enable low and medium levels buttons
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
@@ -155,25 +174,57 @@ class Start:
 
         except ValueError:
             has_errors = "yes"
-            error_feedback = "Please enter a dollar amount (no text / decimals)"
+            error_feedback = "Please enter a whole number (no text / decimals)"
+
+        try:
+            highest_entry = int(selected_range)
+
+            if highest_entry < 5:
+                has_errors = "yes"
+                error_feedback = "Sorry, the least you can play with is $5"
+            elif highest_entry > 50:
+                has_errors = "yes"
+                error_feedback = "Too high! The most you can risk in " \
+                                 "this game is $50"
+
+            elif highest_entry >= 15:
+                # enable all buttons
+                self.easy_level_button.config(state=NORMAL)
+                self.medium_level_button.config(state=NORMAL)
+                self.hard_level_button.config(state=NORMAL)
+            elif highest_entry >= 10:
+                # enable low and medium levels buttons
+                self.easy_level_button.config(state=NORMAL)
+                self.medium_level_button.config(state=NORMAL)
+            else:
+                self.easy_level_button.config(state=NORMAL)
+
+        except ValueError:
+            has_errors = "yes"
+            error_feedback = "Please enter a whole number (no text / decimals)"
 
         if has_errors == "yes":
-            self.range_entry.config(bg=error_back)
+            self.lowest_entry.config(bg=error_back)
+            self.highest_entry.config(bg=error_back)
             self.range_error_label.config(text=error_feedback)
+
         else:
-            # set starting balance to amount entered by user
-            self.questions.set(selected_range)
+            # set selected range to amounts entered by user
+            self.lowest.set(selected_range)
+            self.highest.set(selected_range)
 
     def to_play(self, levels):
 
         # retrieve starting balance
-        selected_range = self.questions.get()
+        selected_range = self.lowest.get()
+        selected_range = self.highest.get()
 
         Quiz(self, levels, selected_range)
 
         # hide start up window
         # root.withdraw()
-        
+
+
 class Quiz:
     def __init__(self, partner, levels, selected_range):
         print(levels)

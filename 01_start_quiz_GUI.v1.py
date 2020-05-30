@@ -66,6 +66,11 @@ class Start:
                                         justify=LEFT)
         self.questions_error_label.grid(row=4, columnspan=2, pady=10)
 
+        # Error Label goes here
+        self.questions_error_label = Label(self.questions_entry_frame, fg="red", font="Arial 10 italic",
+                                        text="", justify=CENTER)
+        self.questions_error_label.grid(row=1)
+
         # Levels label (row 8)
 
         self.levels_label = Label(self.start_frame, font="Arial 16 bold",
@@ -104,11 +109,6 @@ class Start:
         self.easy_level_button.config(state=DISABLED)
         self.medium_level_button.config(state=DISABLED)
         self.hard_level_button.config(state=DISABLED)
-
-        # Error Label goes here
-        self.questions_error_label = Label(self.start_frame, fg="red", font="Arial 10 italic",
-                                        text="")
-        self.questions_error_label.grid(row=3)
 
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play",
