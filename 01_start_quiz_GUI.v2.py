@@ -20,7 +20,7 @@ class Start:
 
         # Set Initial Highest to zero
         self.highest = IntVar()
-        self.highest.set(0)
+        self.highest.set(10)
 
         # Maths Quiz Heading (row 0)
         self.quiz_label = Label(self.start_frame, font="arial 20 bold",
@@ -130,8 +130,8 @@ class Start:
         self.help_button.grid(row=12, pady=10)
 
     def check_range(self):
-        selected_range = self.lowest_entry.get()
-        selected_range = self.highest_entry.get()
+        lowest = self.lowest_entry.get()
+        highest = self.highest_entry.get()
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -150,54 +150,12 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         try:
-            lowest_entry = int(selected_range)
+            lowest_entry = int(lowest)
+            highest_entry = int(highest)
 
-            if lowest_entry < 5:
+            if lowest_entry > highest_entry:
                 has_errors = "yes"
-                error_feedback = "Sorry, the least you can play with is $5"
-            elif lowest_entry > 50:
-                has_errors = "yes"
-                error_feedback = "Too high! The most you can risk in " \
-                                 "this game is $50"
-
-            elif lowest_entry >= 15:
-                # enable all buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-            elif lowest_entry >= 10:
-                # enable low and medium levels buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-            else:
-                self.easy_level_button.config(state=NORMAL)
-
-        except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
-
-        try:
-            highest_entry = int(selected_range)
-
-            if highest_entry < 5:
-                has_errors = "yes"
-                error_feedback = "Sorry, the least you can play with is $5"
-            elif highest_entry > 50:
-                has_errors = "yes"
-                error_feedback = "Too high! The most you can risk in " \
-                                 "this game is $50"
-
-            elif highest_entry >= 15:
-                # enable all buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-            elif highest_entry >= 10:
-                # enable low and medium levels buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-            else:
-                self.easy_level_button.config(state=NORMAL)
+                error_feedback = "please, enter a lower value in the lowest box"
 
         except ValueError:
             has_errors = "yes"
@@ -210,8 +168,8 @@ class Start:
 
         else:
             # set selected range to amounts entered by user
-            self.lowest.set(selected_range)
-            self.highest.set(selected_range)
+            self.lowest.set(lowest)
+            self.highest.set(highest)
 
     def to_play(self, levels):
 
