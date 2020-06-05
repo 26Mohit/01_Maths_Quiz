@@ -150,30 +150,27 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         try:
-<<<<<<< HEAD
-            lowest_entry = int(selected_range)
-            highest_entry = int(selected_range)
 
-            if lowest_entry > highest_entry:
-                has_errors = "yes"
-                error_feedback = "Sorry, please enter a low in this box"
-            elif lowest_entry > 990:
-                has_errors = "yes"
-                error_feedback = "The range must contain 10 numbers"
-
-            elif highest_entry < 10:
-                has_errors = "yes"
-                error_feedback = ""
-
-
-
-=======
             lowest_entry = int(lowest)
             highest_entry = int(highest)
 
-            if lowest_entry > highest_entry:
+
+            if lowest_entry >= highest_entry:
                 has_errors = "yes"
-                error_feedback = "please, enter a lower value in the lowest box"
+                error_feedback = "please, enter a lower value in the lowest box and" \
+                                 " a higher value in the highest box."
+
+            elif lowest_entry < 0:
+                has_errors = "yes"
+                error_feedback = "Please, choose numbers between 0-1000."
+
+            elif highest_entry > 1000:
+                has_errors = "yes"
+                error_feedback = "Please, choose numbers between 0-1000."
+
+            elif highest_entry - lowest_entry < 10:
+                has_errors = "yes"
+                error_feedback = "The range must contain at least 10 numbers."
 
         except ValueError:
             has_errors = "yes"
@@ -188,24 +185,24 @@ class Start:
             # set selected range to amounts entered by user
             self.lowest.set(lowest)
             self.highest.set(highest)
->>>>>>> 21acbab0783ea45152b5310569a6b2a27a7bac6f
 
     def to_play(self, levels):
 
-        # retrieve starting balance
-        selected_range = self.lowest.get()
-        selected_range = self.highest.get()
+        # retrieve selected range
+        lowest = self.lowest.get()
+        highest = self.highest.get()
 
-        Quiz(self, levels, selected_range)
+        Quiz(self, levels, lowest, highest)
 
         # hide start up window
         # root.withdraw()
 
 
 class Quiz:
-    def __init__(self, partner, levels, selected_range):
+    def __init__(self, partner, levels, lowest, highest):
         print(levels)
-        print(selected_range)
+        print(lowest)
+        print(highest)
 
 
 # main routine
