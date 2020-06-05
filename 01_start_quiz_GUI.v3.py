@@ -29,7 +29,7 @@ class Start:
         self.quiz_label.grid(row=0)
 
         # Initial Instruction (row 1)
-        self.quiz_instructions = Label(self.start_frame, font="Arial 10 italic",
+        self.quiz_instructions = Label(self.start_frame, font="Arial 11 italic",
                                           text="Welcome, test your mathematical skills."
                                                " Before selecting a level, "
                                                "please enter the number of question between (5-30)"
@@ -38,11 +38,11 @@ class Start:
                                                " 0-100(medium mode) you would like to see in your quiz. "
                                                "please choose a range of at least 10 numbers. "
                                                "For (hard mode) the range is already set to 0-50.",
-                                          wrap=500, justify=LEFT, padx=10, pady=10)
+                                          wrap=550, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
 
         # Number of questions label (row 2)
-        self.questions_label = Label(self.start_frame, font="Arial 10 bold",
+        self.questions_label = Label(self.start_frame, font="Arial 14 bold italic",
                                      text="Please enter number of questions",
                                      wrap=400, justify=CENTER, padx=10, pady=10)
         self.questions_label.grid(row=2)
@@ -52,8 +52,8 @@ class Start:
         self.questions_entry_frame.grid(row=3)
 
         self.questions_entry = Entry(self.questions_entry_frame,
-                                        font="Arial 16 bold", width=20)
-        self.questions_entry.grid(row=0, column=0)
+                                        font="Arial 22 bold", width=15)
+        self.questions_entry.grid(row=0)
 
         self.select_button = Button(self.questions_entry_frame,
                                        font="Arial 14 bold",
@@ -67,14 +67,14 @@ class Start:
         self.questions_error_label.grid(row=4, columnspan=2, pady=10)
 
         # Error Label goes here
-        self.questions_error_label = Label(self.start_frame, fg="red", font="Arial 13 italic",
+        self.questions_error_label = Label(self.start_frame, fg="red", font="Arial 14 italic",
                                         text="", justify=CENTER)
         self.questions_error_label.grid(row=4)
 
         # Range of numbers Label (row 5)
-        self.range_label = Label(self.start_frame, font="Arial 10 italic bold",
+        self.range_label = Label(self.start_frame, font="Arial 14 italic bold",
                                      text="Please enter a range of numbers",
-                                     wrap=275, justify=CENTER, padx=10, pady=10)
+                                     wrap=500, justify=CENTER, padx=10, pady=10)
         self.range_label.grid(row=5)
 
         # range of numbers Entry Boxes, Button (row 6)
@@ -86,7 +86,7 @@ class Start:
         self.lowest_label.grid(row=0, column=0)
 
         self.lowest_entry = Entry(self.range_entry_frame,
-                                        font="Arial 16 bold", width=7)
+                                        font="Arial 22 bold", width=7)
         self.lowest_entry.grid(row=0, column=1)
 
         self.lowest_error_label = Label(self.range_entry_frame, fg="maroon",
@@ -99,7 +99,7 @@ class Start:
         self.highest_label.grid(row=0, column=2)
 
         self.highest_entry = Entry(self.range_entry_frame,
-                                        font="Arial 16 bold", width=7)
+                                        font="Arial 22 bold", width=7)
         self.highest_entry.grid(row=0, column=3)
 
         self.highest_error_label = Label(self.range_entry_frame, fg="maroon",
@@ -114,7 +114,7 @@ class Start:
         self.select_button.grid(row=0, column=4)
 
         # Error Label goes here
-        self.range_error_label = Label(self.start_frame, fg="red", font="Arial 13 italic",
+        self.range_error_label = Label(self.start_frame, fg="red", font="Arial 14 italic",
                                         text="")
         self.range_error_label.grid(row=7)
 
@@ -131,26 +131,26 @@ class Start:
         self.levels_frame.grid(row=9)
 
         # Buttons go here...
-        button_font = "Arial 14 bold"
+        button_font = "Arial 16 bold"
         # Blue Easy level button...
         self.easy_level_button = Button(self.levels_frame, text="Easy (+/-)",
                                         command=lambda: self.to_play(1),
                                         font=button_font, bg="#00CCCC",
-                                        width=14, height=1)
+                                        width=18, height=1)
         self.easy_level_button.grid(row=9, column=1, pady=10)
 
         # green medium level button...
         self.medium_level_button = Button(self.levels_frame, text="Medium (x/÷)",
                                            command=lambda: self.to_play(2),
                                            font=button_font, bg="#99FF33",
-                                          width=14, height=1)
+                                          width=18, height=1)
         self.medium_level_button.grid(row=10, column=1, padx=5, pady=10)
 
         # red hard level button...
         self.hard_level_button = Button(self.levels_frame, text="Hard (²/√)",
                                          command=lambda: self.to_play(3),
-                                         font=button_font, bg="#E51400",
-                                        width=14, height=1)
+                                         font=button_font, bg="#ff3333",
+                                        width=18, height=1)
         self.hard_level_button.grid(row=11, column=1, pady=10)
 
         # Disable all levels buttons at start
@@ -159,9 +159,9 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         # Help Button
-        self.help_button = Button(self.start_frame, text="How to play",
-                                  bg="#808080", fg="white", font=button_font, width=10, height=2)
-        self.help_button.grid(row=12, pady=10)
+        self.help_button = Button(self.start_frame, text="How to play?",
+                                  bg="#808080", fg="white", font=button_font, width=15, height=2)
+        self.help_button.grid(row=12, column=0, pady=5)
 
     def check_inputs(self):
         selected_questions = self.questions_entry.get()
