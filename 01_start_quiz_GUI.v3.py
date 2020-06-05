@@ -55,11 +55,11 @@ class Start:
                                         font="Arial 22 bold", width=15)
         self.questions_entry.grid(row=0)
 
-        self.select_button = Button(self.questions_entry_frame,
+        self.enter_button = Button(self.questions_entry_frame,
                                        font="Arial 14 bold",
-                                       text="Select", bg="#FF9933",
+                                       text="Enter", bg="#FF9933",
                                        command=self.check_inputs)
-        self.select_button.grid(row=0, column=1)
+        self.enter_button.grid(row=0, column=1)
 
         self.questions_error_label = Label(self.questions_entry_frame, fg="maroon",
                                         text="", font="Arial 10 bold", wrap=275,
@@ -158,6 +158,10 @@ class Start:
         self.medium_level_button.config(state=DISABLED)
         self.hard_level_button.config(state=DISABLED)
 
+        # Disable the select button before users enter the amount of questions
+        self.select_button.config(state=DISABLED)
+
+
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
                                   bg="#808080", fg="white", font=button_font, width=15, height=2)
@@ -192,8 +196,10 @@ class Start:
                 error_feedback = "please choose a number between 5-30"
 
             elif selected_questions >= 5-30:
-                # enable hard level button
+                # enable hard level button and the select button
                 self.hard_level_button.config(state=NORMAL)
+                self.select_button.config(state=NORMAL)
+
 
         except ValueError:
             has_errors = "yes"
