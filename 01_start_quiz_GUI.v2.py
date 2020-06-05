@@ -151,67 +151,21 @@ class Start:
 
         try:
             lowest_entry = int(selected_range)
-
-            if lowest_entry < 5:
-                has_errors = "yes"
-                error_feedback = "Sorry, the least you can play with is $5"
-            elif lowest_entry > 50:
-                has_errors = "yes"
-                error_feedback = "Too high! The most you can risk in " \
-                                 "this game is $50"
-
-            elif lowest_entry >= 15:
-                # enable all buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-            elif lowest_entry >= 10:
-                # enable low and medium levels buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-            else:
-                self.easy_level_button.config(state=NORMAL)
-
-        except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
-
-        try:
             highest_entry = int(selected_range)
 
-            if highest_entry < 5:
+            if lowest_entry > highest_entry:
                 has_errors = "yes"
-                error_feedback = "Sorry, the least you can play with is $5"
-            elif highest_entry > 50:
+                error_feedback = "Sorry, please enter a low in this box"
+            elif lowest_entry > 990:
                 has_errors = "yes"
-                error_feedback = "Too high! The most you can risk in " \
-                                 "this game is $50"
+                error_feedback = "The range must contain 10 numbers"
 
-            elif highest_entry >= 15:
-                # enable all buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-            elif highest_entry >= 10:
-                # enable low and medium levels buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-            else:
-                self.easy_level_button.config(state=NORMAL)
+            elif highest_entry < 10:
+                has_errors = "yes"
+                error_feedback = ""
 
-        except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
 
-        if has_errors == "yes":
-            self.lowest_entry.config(bg=error_back)
-            self.highest_entry.config(bg=error_back)
-            self.range_error_label.config(text=error_feedback)
 
-        else:
-            # set selected range to amounts entered by user
-            self.lowest.set(selected_range)
-            self.highest.set(selected_range)
 
     def to_play(self, levels):
 
