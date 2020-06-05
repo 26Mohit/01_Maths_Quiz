@@ -266,6 +266,18 @@ class Start:
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
 
+            elif lowest_entry <= 0:
+                # enable all level buttons
+                self.easy_level_button.config(state=NORMAL)
+                self.medium_level_button.config(state=NORMAL)
+                self.hard_level_button.config(state=NORMAL)
+
+            elif highest_entry <= 50:
+                # enable all level buttons
+                self.easy_level_button.config(state=NORMAL)
+                self.medium_level_button.config(state=NORMAL)
+                self.hard_level_button.config(state=NORMAL)
+
         except ValueError:
             has_errors = "yes"
             error_feedback = "Please enter a whole number (no text / decimals)"
