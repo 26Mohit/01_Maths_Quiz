@@ -20,7 +20,7 @@ class Start:
 
         # Set Initial Highest to zero
         self.highest = IntVar()
-        self.highest.set(10)
+        self.highest.set(0)
 
         # Maths Quiz Heading (row 0)
         self.quiz_label = Label(self.start_frame, font="arial 20 bold",
@@ -38,8 +38,38 @@ class Start:
                                                " 0-100(medium mode) you would like to see in your quiz. "
                                                "please choose a range of at least 10 numbers. "
                                                "For (hard mode) the range is already set to 0-50.",
-                                          wrap=500, justify=CENTER, padx=10, pady=10)
+                                          wrap=500, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
+
+        # Number of questions label (row 2)
+        self.questions_label = Label(self.start_frame, font="Arial 10 bold",
+                                     text="Please enter number of questions",
+                                     wrap=400, justify=CENTER, padx=10, pady=10)
+        self.questions_label.grid(row=2)
+
+        # Number of questions entry box and button (row 3)
+        self.questions_entry_frame = Frame(self.start_frame, width=200)
+        self.questions_entry_frame.grid(row=3)
+
+        self.questions_entry = Entry(self.questions_entry_frame,
+                                        font="Arial 16 bold", width=20)
+        self.questions_entry.grid(row=0, column=0)
+
+        self.select_button = Button(self.questions_entry_frame,
+                                       font="Arial 14 bold",
+                                       text="Select", bg="#FF9933",
+                                       command=self.check_inputs)
+        self.select_button.grid(row=0, column=1)
+
+        self.questions_error_label = Label(self.questions_entry_frame, fg="maroon",
+                                        text="", font="Arial 10 bold", wrap=275,
+                                        justify=LEFT)
+        self.questions_error_label.grid(row=4, columnspan=2, pady=10)
+
+        # Error Label goes here
+        self.questions_error_label = Label(self.start_frame, fg="red", font="Arial 13 italic",
+                                        text="", justify=CENTER)
+        self.questions_error_label.grid(row=4)
 
         # Range of numbers Label (row 5)
         self.range_label = Label(self.start_frame, font="Arial 10 italic bold",
@@ -78,19 +108,20 @@ class Start:
         self.highest_error_label.grid(row=1, columnspan=2, pady=10)
 
         self.select_button = Button(self.range_entry_frame,
-                                       font="Arial 12 bold",
+                                       font="Arial 14 bold",
                                        text="Select", bg="#FF9933",
                                        command=self.check_range)
         self.select_button.grid(row=0, column=4)
 
         # Error Label goes here
-        self.range_error_label = Label(self.range_entry_frame, fg="red", font="Arial 10 italic",
+        self.range_error_label = Label(self.start_frame, fg="red", font="Arial 13 italic",
                                         text="")
-        self.range_error_label.grid(row=1, column=2)
+        self.range_error_label.grid(row=7)
+
 
         # Levels label (row 8)
-        
-        self.levels_label = Label(self.start_frame, font="Arial 14",
+
+        self.levels_label = Label(self.start_frame, font="Arial 16 bold",
                                   text="Choose your level",
                                   wrap=275, justify=CENTER)
         self.levels_label.grid(row=8)
@@ -100,23 +131,26 @@ class Start:
         self.levels_frame.grid(row=9)
 
         # Buttons go here...
-        button_font = "Arial 12 bold"
+        button_font = "Arial 14 bold"
         # Blue Easy level button...
         self.easy_level_button = Button(self.levels_frame, text="Easy (+/-)",
                                         command=lambda: self.to_play(1),
-                                        font=button_font, bg="#00CCCC")
+                                        font=button_font, bg="#00CCCC",
+                                        width=14, height=1)
         self.easy_level_button.grid(row=9, column=1, pady=10)
 
         # green medium level button...
         self.medium_level_button = Button(self.levels_frame, text="Medium (x/÷)",
                                            command=lambda: self.to_play(2),
-                                           font=button_font, bg="#00CC00")
+                                           font=button_font, bg="#99FF33",
+                                          width=14, height=1)
         self.medium_level_button.grid(row=10, column=1, padx=5, pady=10)
 
         # red hard level button...
         self.hard_level_button = Button(self.levels_frame, text="Hard (²/√)",
                                          command=lambda: self.to_play(3),
-                                         font=button_font, bg="#E51400")
+                                         font=button_font, bg="#E51400",
+                                        width=14, height=1)
         self.hard_level_button.grid(row=11, column=1, pady=10)
 
         # Disable all levels buttons at start
@@ -125,9 +159,52 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         # Help Button
-        self.help_button = Button(self.start_frame, text="How to play?",
-                                  bg="#808080", fg="white", font=button_font)
+        self.help_button = Button(self.start_frame, text="How to play",
+                                  bg="#808080", fg="white", font=button_font, width=10, height=2)
         self.help_button.grid(row=12, pady=10)
+
+    def check_inputs(self):
+        selected_questions = self.questions_entry.get()
+
+        # Set error background colours (and assume that there are no
+        # errors at the start...
+        error_back = "#ffafaf"
+        has_errors = "no"
+
+        # change background to white (for testing purposes)...
+        self.questions_entry.config(bg="white")
+        self.questions_error_label.config(text="")
+
+        # Disable all levels buttons in case user changes mind and
+        # decreases amount entered.
+        self.easy_level_button.config(state=DISABLED)
+        self.medium_level_button.config(state=DISABLED)
+        self.hard_level_button.config(state=DISABLED)
+
+        try:
+            selected_questions = int(selected_questions)
+
+            if selected_questions < 5:
+                has_errors = "yes"
+                error_feedback = "Sorry, the least you can play with is 5"
+            elif selected_questions > 30:
+                has_errors = "yes"
+                error_feedback = "please choose a number between 5-30"
+
+            elif selected_questions >= 5-30:
+                # enable hard level button
+                self.hard_level_button.config(state=NORMAL)
+
+        except ValueError:
+            has_errors = "yes"
+            error_feedback = "Please enter a whole number (no text / decimals)"
+
+        if has_errors == "yes":
+            self.questions_entry.config(bg=error_back)
+            self.questions_error_label.config(text=error_feedback)
+        else:
+            # set selected questions to number entered by user
+            self.questions.set(selected_questions)
 
     def check_range(self):
         lowest = self.lowest_entry.get()
@@ -150,11 +227,9 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         try:
-
             lowest_entry = int(lowest)
             highest_entry = int(highest)
 
-<<<<<<< HEAD
             if lowest_entry >= highest_entry:
                 has_errors = "yes"
                 error_feedback = "please, enter a lower value in the lowest box and" \
@@ -184,25 +259,6 @@ class Start:
                 # enable easy and medium level buttons
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
-=======
-
-            if lowest_entry >= highest_entry:
-                has_errors = "yes"
-                error_feedback = "please, enter a lower value in the lowest box and" \
-                                 " a higher value in the highest box."
-
-            elif lowest_entry < 0:
-                has_errors = "yes"
-                error_feedback = "Please, choose numbers between 0-1000."
-
-            elif highest_entry > 1000:
-                has_errors = "yes"
-                error_feedback = "Please, choose numbers between 0-1000."
-
-            elif highest_entry - lowest_entry < 10:
-                has_errors = "yes"
-                error_feedback = "The range must contain at least 10 numbers."
->>>>>>> 3cc3e046a25a3f55d72f384e36ddf42808e985f9
 
         except ValueError:
             has_errors = "yes"
@@ -218,28 +274,28 @@ class Start:
             self.lowest.set(lowest)
             self.highest.set(highest)
 
+
     def to_play(self, levels):
+
+        # retrieve starting balance
+        selected_questions = self.questions.get()
 
         # retrieve selected range
         lowest = self.lowest.get()
         highest = self.highest.get()
 
-        Quiz(self, levels, lowest, highest)
+        Quiz(self, levels, selected_questions, lowest, highest)
 
         # hide start up window
         # root.withdraw()
 
 
 class Quiz:
-    def __init__(self, partner, levels, lowest, highest):
+    def __init__(self, partner, levels, selected_questions, lowest, highest):
         print(levels)
+        print(selected_questions)
         print(lowest)
         print(highest)
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cc3e046a25a3f55d72f384e36ddf42808e985f9
-
 # main routine
 if __name__ == "__main__":
     root = Tk()
