@@ -20,7 +20,7 @@ class Start:
 
         # Set Initial Highest to zero
         self.highest = IntVar()
-        self.highest.set(0)
+        self.highest.set(10)
 
         # Maths Quiz Heading (row 0)
         self.quiz_label = Label(self.start_frame, font="arial 20 bold",
@@ -130,8 +130,8 @@ class Start:
         self.help_button.grid(row=12, pady=10)
 
     def check_range(self):
-        selected_range = self.lowest_entry.get()
-        selected_range = self.highest_entry.get()
+        lowest = self.lowest_entry.get()
+        highest = self.highest_entry.get()
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -150,6 +150,7 @@ class Start:
         self.hard_level_button.config(state=DISABLED)
 
         try:
+<<<<<<< HEAD
             lowest_entry = int(selected_range)
             highest_entry = int(selected_range)
 
@@ -166,6 +167,28 @@ class Start:
 
 
 
+=======
+            lowest_entry = int(lowest)
+            highest_entry = int(highest)
+
+            if lowest_entry > highest_entry:
+                has_errors = "yes"
+                error_feedback = "please, enter a lower value in the lowest box"
+
+        except ValueError:
+            has_errors = "yes"
+            error_feedback = "Please enter a whole number (no text / decimals)"
+
+        if has_errors == "yes":
+            self.lowest_entry.config(bg=error_back)
+            self.highest_entry.config(bg=error_back)
+            self.range_error_label.config(text=error_feedback)
+
+        else:
+            # set selected range to amounts entered by user
+            self.lowest.set(lowest)
+            self.highest.set(highest)
+>>>>>>> 21acbab0783ea45152b5310569a6b2a27a7bac6f
 
     def to_play(self, levels):
 
