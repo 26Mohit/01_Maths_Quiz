@@ -37,7 +37,7 @@ class Quiz:
         
         # GUI setup
         self.quiz_box = Toplevel()
-        self.quiz_frame = Frame(self.quiz_box)
+        self.quiz_frame = Frame(self.quiz_box, padx=10, pady=10)
         self.quiz_frame.grid()
 
         # Mode row 0
@@ -54,27 +54,26 @@ class Quiz:
                                    pady=10)
         self.heading_label.grid(row=1)
 
-        # Questions Box (row 2)
-        self.questions_box = Label(self.quiz_frame, bg="#FFCCFF",
-                                   font="Arial 22 bold", width=10,
-                                   padx=10, pady=10)
-        self.questions_box.grid(row=2)
-
-        # answers entry box (row 3)
         self.answers_entry_frame = Frame(self.quiz_frame, width=200)
-        self.answers_entry_frame.grid(row=3)
+        self.answers_entry_frame.grid(row=2)
 
+        # questions box
+        self.questions_box = Label(self.answers_entry_frame, bg="#FFCCFF",
+                                   font="Arial 24 bold", width=13, pady=10)
+        self.questions_box.grid(row=0)
+
+        # answers entry box
         self.answers_entry = Entry(self.answers_entry_frame,
-                                        font="Arial 28 bold", width=10)
-        self.answers_entry.grid(row=0)
+                                        font="Arial 28 bold", width=13, justify=CENTER)
+        self.answers_entry.grid(row=1)
 
         self.submit_button = Button(self.answers_entry_frame,
-                                       font="Arial 14 bold",
-                                       text="Submit", bg="#FFFF33", width=10)
-        self.submit_button.grid(row=1, column=0)
+                                       font="Arial 20 bold",
+                                       text="Submit", bg="#FFFF33", width=12)
+        self.submit_button.grid(row=2, column=0)
 
         self.next_button = Button(self.answers_entry_frame,
-                                       font="Arial 14 bold", width=10,
+                                       font="Arial 18 bold", width=7,
                                        text="Next→", bg="#00CC00", fg="white")
         self.next_button.grid(row=1, column=1)
 
@@ -88,28 +87,31 @@ class Quiz:
                                         text="", justify=CENTER)
         self.answers_error_label.grid(row=4)
 
-
-
-        # selected questions Label (row 4)
+        # selected questions Label (row 3)
 
         self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: 30 ", font="Arial 12 bold",
                                    fg="green", wrap=300, justify=LEFT)
-        self.questions_label.grid(row=4, pady=10)
+        self.questions_label.grid(row=3)
 
-        # Help/Rules and quiz results button (row 5)
-        self.help_export_frame = Frame(self.quiz_frame)
-        self.help_export_frame.grid(row=5)
+        # Help/Rules and quiz results button (row 4)
+        self.buttons_frame = Frame(self.quiz_frame)
+        self.buttons_frame.grid(row=4)
 
-        self.help_button = Button(self.help_export_frame, text="How to Play?",
-                                  font="Arial 15 bold", bg="#808080", fg="white")
-        self.help_button.grid(row=5, column=0, padx=2, pady=10)
-
-        self.results_button = Button(self.help_export_frame, text="Quiz Results...",
+        self.results_button = Button(self.buttons_frame, text="Quiz Results...",
                                    font="Arial 15 bold",
                                    bg="#003366", fg="white")
-        self.results_button.grid(row=5, column=1, padx=2, pady=10)
+        self.results_button.grid(row=5, column=0, padx=2, pady=10)
 
-    def reveal_boxes(self):
+        self.quit_button = Button(self.buttons_frame, text="End Quiz",
+                                  font="Arial 15 bold",
+                                  bg="#EA6B66", fg="white")
+        self.quit_button.grid(row=5, column=1, padx=5, pady=5)
+
+        self.help_button = Button(self.buttons_frame, text="How to Play?",
+                                  font="Arial 15 bold", bg="#808080", fg="white")
+        self.help_button.grid(row=5, column=2, padx=2, pady=10)
+
+    def reveal_questions(self):
 
         # retrieve the questions from the initial function..
         current_questions = self.questions.get()
