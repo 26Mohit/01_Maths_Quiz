@@ -154,7 +154,6 @@ class Start:
             lowest_entry = int(lowest)
             highest_entry = int(highest)
 
-
             if lowest_entry >= highest_entry:
                 has_errors = "yes"
                 error_feedback = "please, enter a lower value in the lowest box and" \
@@ -184,23 +183,6 @@ class Start:
                 # enable easy and medium level buttons
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
-
-            if lowest_entry >= highest_entry:
-                has_errors = "yes"
-                error_feedback = "please, enter a lower value in the lowest box and" \
-                                 " a higher value in the highest box."
-
-            elif lowest_entry < 0:
-                has_errors = "yes"
-                error_feedback = "Please, choose numbers between 0-1000."
-
-            elif highest_entry > 1000:
-                has_errors = "yes"
-                error_feedback = "Please, choose numbers between 0-1000."
-
-            elif highest_entry - lowest_entry < 10:
-                has_errors = "yes"
-                error_feedback = "The range must contain at least 10 numbers."
 
         except ValueError:
             has_errors = "yes"

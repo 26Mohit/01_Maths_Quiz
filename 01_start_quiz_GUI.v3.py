@@ -11,8 +11,8 @@ class Start:
         self.start_frame.grid()
 
         # Set Initial questions to zero
-        self.questions = IntVar()
-        self.questions.set(0)
+        self.questions_amount = IntVar()
+        self.questions_amount.set(0)
 
         # Set Initial Lowest to zero
         self.lowest = IntVar()
@@ -200,7 +200,6 @@ class Start:
                 self.hard_level_button.config(state=NORMAL)
                 self.select_button.config(state=NORMAL)
 
-
         except ValueError:
             has_errors = "yes"
             error_feedback = "Please enter a whole number (no text / decimals)"
@@ -210,7 +209,7 @@ class Start:
             self.questions_error_label.config(text=error_feedback)
         else:
             # set selected questions to number entered by user
-            self.questions.set(selected_questions)
+            self.questions_amount.set(selected_questions)
 
     def check_range(self):
         lowest = self.lowest_entry.get()
@@ -266,18 +265,6 @@ class Start:
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
 
-            elif lowest_entry <= 0:
-                # enable all level buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-
-            elif highest_entry <= 50:
-                # enable all level buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
-
         except ValueError:
             has_errors = "yes"
             error_feedback = "Please enter a whole number (no text / decimals)"
@@ -292,11 +279,10 @@ class Start:
             self.lowest.set(lowest)
             self.highest.set(highest)
 
-
     def to_play(self, levels):
 
-        # retrieve starting balance
-        selected_questions = self.questions.get()
+        # retrieve selected questions
+        selected_questions = self.questions_amount.get()
 
         # retrieve selected range
         lowest = self.lowest.get()
@@ -314,6 +300,7 @@ class Quiz:
         print(selected_questions)
         print(lowest)
         print(highest)
+
 # main routine
 if __name__ == "__main__":
     root = Tk()
