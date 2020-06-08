@@ -85,7 +85,7 @@ class Quiz:
         self.next_button = Button(self.answers_entry_frame,
                                        font="Arial 18 bold", width=7,
                                        text="Next→", bg="#00CC00", fg="white",
-                                  command=self.reveal_questions)
+                                  command=self.generate_questions)
         self.next_button.grid(row=1, column=1)
 
         self.answers_error_label = Label(self.answers_entry_frame, fg="maroon",
@@ -124,7 +124,7 @@ class Quiz:
                                   font="Arial 15 bold", bg="#808080", fg="white")
         self.help_button.grid(row=5, column=2, padx=2, pady=10)
 
-    def reveal_questions(self):
+    def generate_questions(self):
 
         # retrieve the questions from the initial function..
         questions = self.questions.get()
