@@ -18,23 +18,33 @@ class Start:
         selected_questions = 30
         levels = 1
 
-        Quiz(self, levels, selected_questions)
+        # retrieve selected range
+        lowest = 0
+        highest = 1000
+
+        Quiz(self, levels, selected_questions, lowest, highest)
 
         # hide start up window
         root.withdraw()
 
 
 class Quiz:
-    def __init__(self, partner, levels, selected_questions):
+    def __init__(self, partner, levels, selected_questions, lowest, highest):
         print(levels)
         print(selected_questions)
+        print(lowest)
+        print(highest)
 
         # initialise variables
         self.questions = IntVar()
-        
+        self.range = IntVar()
+
         # Set number of questions to amount entered by users at start of quiz
         self.questions.set(selected_questions)
-        
+
+        # Set range of numbers to values entered by users
+        self.range.set(lowest - highest)
+
         # GUI setup
         self.quiz_box = Toplevel()
         self.quiz_frame = Frame(self.quiz_box, padx=10, pady=10)
@@ -75,7 +85,7 @@ class Quiz:
         self.next_button = Button(self.answers_entry_frame,
                                        font="Arial 18 bold", width=7,
                                        text="Next→", bg="#00CC00", fg="white",
-                                 command=self.reveal_questions)
+                                  command=self.reveal_questions)
         self.next_button.grid(row=1, column=1)
 
         self.answers_error_label = Label(self.answers_entry_frame, fg="maroon",
@@ -90,8 +100,10 @@ class Quiz:
 
         # selected questions Label (row 3)
 
-        self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: 30 ", font="Arial 12 bold",
-                                   fg="green", wrap=300, justify=LEFT)
+        self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: 30"
+                                                           " and selected range of numbers: 0-50 ",
+                                     font="Arial 12 bold",
+                                     fg="green", wrap=400, justify=CENTER)
         self.questions_label.grid(row=3)
 
         # Help/Rules and quiz results button (row 4)
@@ -118,14 +130,14 @@ class Quiz:
         questions = self.questions.get()
 
         # adjust the questions
-        questions -=1
+        questions -= 1
 
         # Set questions to adjust questions
         self.questions.set(questions)
 
         # Edit label so user can see their questions
         self.questions_label.configure(text="questions: {}".format(questions))
-        
+
 
 
 # main routine
