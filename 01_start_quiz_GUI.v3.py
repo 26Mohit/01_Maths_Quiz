@@ -264,6 +264,7 @@ class Start:
                 # enable easy and medium level buttons
                 self.easy_level_button.config(state=NORMAL)
                 self.medium_level_button.config(state=NORMAL)
+                self.hard_level_button.config(state=NORMAL)
 
         except ValueError:
             has_errors = "yes"

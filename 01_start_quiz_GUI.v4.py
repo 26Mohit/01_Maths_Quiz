@@ -12,15 +12,15 @@ class Start:
 
         # Set Initial questions to zero
         self.questions_amount = IntVar()
-        self.questions_amount.set(0)
+        self.questions_amount.set(10)
 
         # Set Initial Lowest to zero
         self.lowest = IntVar()
-        self.lowest.set(0)
+        self.lowest.set(10)
 
         # Set Initial Highest to zero
         self.highest = IntVar()
-        self.highest.set(0)
+        self.highest.set(100)
 
         # Maths Quiz Heading (row 0)
         self.quiz_label = Label(self.start_frame, font="arial 20 bold",
@@ -248,9 +248,22 @@ class Start:
                 has_errors = "yes"
                 error_feedback = "The range must contain at least 10 numbers."
 
+            elif lowest_entry >= 100:
+                # enable easy level button
+                self.easy_level_button.config(state=NORMAL)
+
+            elif highest_entry > 300:
+                # enable easy level button
+                self.easy_level_button.config(state=NORMAL)
+
+            elif lowest_entry < 300:
+                # enable easy and medium level buttons
+                self.easy_level_button.config(state=NORMAL)
+                self.medium_level_button.config(state=NORMAL)
+                self.hard_level_button.config(state=NORMAL)
+
         except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
+            has_errors = "no"
 
         if has_errors == "yes":
             self.lowest_entry.config(bg=error_back)
@@ -261,6 +274,7 @@ class Start:
             # set selected range to amounts entered by user
             self.lowest.set(lowest)
             self.highest.set(highest)
+
 
     def to_play(self, levels):
 
