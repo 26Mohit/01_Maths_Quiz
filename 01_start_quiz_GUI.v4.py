@@ -156,9 +156,6 @@ class Start:
         self.medium_level_button.config(state=DISABLED)
         self.hard_level_button.config(state=DISABLED)
 
-        # Disable the select button before users enter the amount of questions
-        self.select_button.config(state=DISABLED)
-
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
                                   bg="#808080", fg="white", font=button_font, width=15, height=2)
@@ -197,8 +194,7 @@ class Start:
                 self.select_button.config(state=NORMAL)
 
         except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
+            has_errors = "no"
 
         if has_errors == "yes":
             self.questions_entry.config(bg=error_back)
