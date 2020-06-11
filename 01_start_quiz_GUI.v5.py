@@ -56,12 +56,6 @@ class Start:
                                         font="Arial 22 bold", width=15)
         self.questions_entry.grid(row=0)
 
-        self.enter_button = Button(self.questions_entry_frame,
-                                       font="Arial 14 bold",
-                                       text="Enter", bg="#FF9933",
-                                       command=self.check_inputs)
-        self.enter_button.grid(row=0, column=1)
-
         self.questions_error_label = Label(self.questions_entry_frame, fg="maroon",
                                         text="", font="Arial 10 bold", wrap=275,
                                         justify=LEFT)
@@ -108,12 +102,6 @@ class Start:
                                         justify=LEFT)
         self.highest_error_label.grid(row=1, columnspan=2, pady=5)
 
-        self.select_button = Button(self.range_entry_frame,
-                                       font="Arial 14 bold",
-                                       text="Select", bg="#FF9933",
-                                       command=self.check_range)
-        self.select_button.grid(row=0, column=4)
-
         # Error Label goes here
         self.range_error_label = Label(self.start_frame, fg="red", font="Arial 14 italic",
                                         text="", wrap=400)
@@ -135,32 +123,24 @@ class Start:
         button_font = "Arial 16 bold"
         # Blue Easy level button...
         self.easy_level_button = Button(self.levels_frame, text="Easy (+/-)",
-                                        command=lambda: self.to_play(1),
+                                        command=( self.to_play(1), self.check_inputs, self.check_range),
                                         font=button_font, bg="#00CCCC",
                                         width=18, height=1)
         self.easy_level_button.grid(row=9, column=1, pady=10)
 
         # green medium level button...
         self.medium_level_button = Button(self.levels_frame, text="Medium (x/÷)",
-                                           command=lambda: self.to_play(2),
+                                          command=( self.to_play(2), self.check_inputs, self.check_range),
                                            font=button_font, bg="#99FF33",
                                           width=18, height=1)
         self.medium_level_button.grid(row=10, column=1, padx=5, pady=10)
 
         # red hard level button...
         self.hard_level_button = Button(self.levels_frame, text="Hard (²/√)",
-                                         command=lambda: self.to_play(3),
-                                         font=button_font, bg="#ff3333",
+                                        command = ( self.to_play(3), self.check_inputs, self.check_range),
+                                        font=button_font, bg="#ff3333",
                                         width=18, height=1)
         self.hard_level_button.grid(row=11, column=1, pady=10)
-
-        # Disable all levels buttons at start
-        self.easy_level_button.config(state=DISABLED)
-        self.medium_level_button.config(state=DISABLED)
-        self.hard_level_button.config(state=DISABLED)
-
-        # Disable the select button before users enter the amount of questions
-        self.select_button.config(state=DISABLED)
 
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
@@ -179,12 +159,6 @@ class Start:
         self.questions_entry.config(bg="white")
         self.questions_error_label.config(text="")
 
-        # Disable all levels buttons in case user changes mind and
-        # decreases amount entered.
-        self.easy_level_button.config(state=DISABLED)
-        self.medium_level_button.config(state=DISABLED)
-        self.hard_level_button.config(state=DISABLED)
-
         try:
             selected_questions = int(selected_questions)
 
@@ -194,10 +168,6 @@ class Start:
             elif selected_questions > 30:
                 has_errors = "yes"
                 error_feedback = "please choose a number between 5-30"
-
-            elif selected_questions >= 5-30:
-                # enable select button
-                self.select_button.config(state=NORMAL)
 
         except ValueError:
             has_errors = "yes"
@@ -224,12 +194,6 @@ class Start:
         self.highest_entry.config(bg="white")
         self.range_error_label.config(text="")
 
-        # Disable all levels buttons in case user changes mind and
-        # decreases amount entered.
-        self.easy_level_button.config(state=DISABLED)
-        self.medium_level_button.config(state=DISABLED)
-        self.hard_level_button.config(state=DISABLED)
-
         try:
             lowest_entry = int(lowest)
             highest_entry = int(highest)
@@ -250,20 +214,6 @@ class Start:
             elif highest_entry - lowest_entry < 10:
                 has_errors = "yes"
                 error_feedback = "The range must contain at least 10 numbers."
-
-            elif lowest_entry >= 100:
-                # enable easy level button
-                self.easy_level_button.config(state=NORMAL)
-
-            elif highest_entry > 300:
-                # enable easy level button
-                self.easy_level_button.config(state=NORMAL)
-
-            elif lowest_entry < 300:
-                # enable easy and medium level buttons
-                self.easy_level_button.config(state=NORMAL)
-                self.medium_level_button.config(state=NORMAL)
-                self.hard_level_button.config(state=NORMAL)
 
         except ValueError:
             has_errors = "yes"
