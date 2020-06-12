@@ -34,11 +34,10 @@ class Start:
                                                " Before selecting a level, "
                                                "please enter the number of question between (5-30)"
                                                " you would like to have in your quiz."
-                                               " Then please enter the range of numbers between 0-1000(easy mode),"
-                                               " 0-300(medium mode) and (hard mode)"
+                                               " Then please enter the range of numbers between 0-1000"
                                                " you would like to see in your quiz. "
                                                "please choose a range of at least 10 numbers. ",
-                                          wrap=550, justify=LEFT, padx=10, pady=10)
+                                          wrap=500, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
 
         # Number of questions label (row 2)
@@ -107,7 +106,6 @@ class Start:
                                         text="", wrap=400)
         self.range_error_label.grid(row=7)
 
-
         # Levels label (row 8)
 
         self.levels_label = Label(self.start_frame, font="Arial 16 bold",
@@ -123,21 +121,27 @@ class Start:
         button_font = "Arial 16 bold"
         # Blue Easy level button...
         self.easy_level_button = Button(self.levels_frame, text="Easy (+/-)",
-                                        command=( self.to_play(1), self.check_inputs, self.check_range),
+                                        command=lambda:(self.to_play(1),
+                                                        self.check_inputs(),
+                                                        self.check_range()),
                                         font=button_font, bg="#00CCCC",
                                         width=18, height=1)
         self.easy_level_button.grid(row=9, column=1, pady=10)
 
         # green medium level button...
         self.medium_level_button = Button(self.levels_frame, text="Medium (x/÷)",
-                                          command=( self.to_play(2), self.check_inputs, self.check_range),
+                                          command=lambda:(self.to_play(2),
+                                                          self.check_inputs(),
+                                                          self.check_range()),
                                            font=button_font, bg="#99FF33",
                                           width=18, height=1)
         self.medium_level_button.grid(row=10, column=1, padx=5, pady=10)
 
         # red hard level button...
         self.hard_level_button = Button(self.levels_frame, text="Hard (²/√)",
-                                        command = ( self.to_play(3), self.check_inputs, self.check_range),
+                                        command=lambda:(self.to_play(3),
+                                                        self.check_inputs(),
+                                                        self.check_range()),
                                         font=button_font, bg="#ff3333",
                                         width=18, height=1)
         self.hard_level_button.grid(row=11, column=1, pady=10)
@@ -215,6 +219,7 @@ class Start:
                 has_errors = "yes"
                 error_feedback = "The range must contain at least 10 numbers."
 
+
         except ValueError:
             has_errors = "yes"
             error_feedback = "Please enter a whole number (no text / decimals)"
@@ -228,7 +233,6 @@ class Start:
             # set selected range to amounts entered by user
             self.lowest.set(lowest)
             self.highest.set(highest)
-
 
     def to_play(self, levels):
 
