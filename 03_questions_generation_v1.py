@@ -11,7 +11,7 @@ for selected_questions in range(selected_questions):
     num_1 = random.randint(lowest, highest)
     num_2 = random.randint(lowest, highest)
     sign = ['+', '-', '*']
-    levels = random.randit(sign)
+    levels = random.choice(sign)
     question = "{} {} {} = ".format(num_1, levels, num_2)
     correct = num_1 - num_2
     answer = int(input(question))
@@ -19,5 +19,6 @@ for selected_questions in range(selected_questions):
     if answer == correct:
       print("Great job")
     else:
+      print(correct)
       print("oops")
 
