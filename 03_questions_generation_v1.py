@@ -10,7 +10,9 @@ for selected_questions in range(selected_questions):
     range = lowest-highest
     num_1 = random.randint(lowest, highest)
     num_2 = random.randint(lowest, highest)
-    question = "{} - {} = ".format(num_1, num_2)
+    sign = ['+', '-', '*']
+    levels = random.randit(sign)
+    question = "{} {} {} = ".format(num_1, levels, num_2)
     correct = num_1 - num_2
     answer = int(input(question))
 
