@@ -13,7 +13,7 @@ for selected_questions in range(selected_questions):
     sign = ['+', '-', '*']
     levels = random.choice(sign)
     question = "{} {} {} = ".format(num_1, levels, num_2)
-    correct = num_1 - num_2
+    correct = eval(str(num_1) + levels + str(num_2))
     answer = int(input(question))
 
     if answer == correct:
