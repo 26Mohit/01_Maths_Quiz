@@ -1,5 +1,4 @@
 import random
-
 # Generate number of questions that user has entered
 # Generate numbers according to the values entered by user
 # Generate questions according to the level user chose
