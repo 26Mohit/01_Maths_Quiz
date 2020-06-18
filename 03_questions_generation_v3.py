@@ -9,20 +9,16 @@ highest = int(input("please enter a high number"))
 for selected_questions in range(selected_questions):
     range = lowest-highest
     num_1 = random.randint(lowest, highest)
-    num_2 = random.randint(lowest, highest)
-    sign = ['/']
+    sign = ['²']
     levels = random.choice(sign)
-    question = "{} {} {} = ".format(num_1, levels, num_2)
-    correct = eval(str(num_1) + levels + str(num_2))
+    question = "{} {} = ".format(num_1, levels)
+    correct = eval(str(num_1) + levels)
     answer = int(input(question))
     if answer == correct:
       print("Great job")
     else:
       print(correct)
       print("oops")
-
-    if num_1 % num_2 == 0:
-        print()
 
 
 
