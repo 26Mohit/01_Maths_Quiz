@@ -9,9 +9,8 @@ highest = int(input("please enter a high number"))
 for selected_questions in range(selected_questions):
     range = lowest-highest
     num_1 = random.randint(lowest, highest)
-    num_3 = (num_1*num_1)
-    question = "√{} = ".format(num_3)
-    correct = (num_3**(1/2))
+    question = "{}² = ".format(num_1)
+    correct = (num_1**2)
     answer = int(input(question))
     if answer == correct:
       print("Great job")
