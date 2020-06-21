@@ -36,8 +36,9 @@ class Start:
                                                " you would like to have in your quiz."
                                                " Then please enter the range of numbers between 0-1000"
                                                " you would like to see in your quiz. "
-                                               "please choose a range of at least 10 numbers. ",
-                                          wrap=500, justify=LEFT, padx=10, pady=10)
+                                               " For Medium and Hard Levels recommended range is 0-20."
+                                               " Please choose a range of at least 10 numbers. ",
+                                          wrap=550, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
 
         # Number of questions label (row 2)
