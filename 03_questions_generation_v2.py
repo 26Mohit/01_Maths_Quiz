@@ -15,14 +15,14 @@ for selected_questions in range(selected_questions):
     question = "{} {} {} = ".format(num_1, levels, num_2)
     correct = eval(str(num_1) + levels + str(num_2))
     answer = int(input(question))
+    if num_1 % num_2 == 0:
+      print (num_1, num_2)
+
     if answer == correct:
       print("Great job")
     else:
       print(correct)
       print("oops")
-
-    if num_1 % num_2 == 0:
-        print()
 
 
 
