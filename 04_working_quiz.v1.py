@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 1
+        levels = 2
 
         # retrieve selected range
         lowest = 0
@@ -85,13 +85,14 @@ class Quiz:
 
         self.submit_button = Button(self.answers_entry_frame,
                                        font="Arial 20 bold",
-                                       text="Submit", bg="#FFFF33", width=12)
+                                       text="Submit",
+                                    command=self.generate_questions,
+                                    bg="#FFFF33", width=12)
         self.submit_button.grid(row=2, column=0)
 
         self.next_button = Button(self.answers_entry_frame,
                                        font="Arial 18 bold", width=7,
-                                       text="Next→", bg="#00CC00", fg="white",
-                                  command=self.generate_questions)
+                                       text="Next→", bg="#00CC00", fg="white")
         self.next_button.grid(row=1, column=1)
 
         self.answers_error_label = Label(self.answers_entry_frame, fg="maroon",
@@ -139,9 +140,9 @@ class Quiz:
         problems_generator = self.problems.get()
 
         # adjust the questions
-        score = 0
         questions -= 1
         problems = []
+        score = 0
 
         # Generate number of questions that user has entered
         # Generate numbers according to the values entered by user
@@ -156,23 +157,27 @@ class Quiz:
                 question = "{} {} {} = ".format(num_3, levels, num_2)
                 correct = eval(str(num_3) + levels + str(num_2))
                 answer = self.answers_entry
+                problems.append(question)
+                self.questions_box.configure(text="{}".format(question))
 
         elif problems_generator == 2:
             for selected_questions in range(questions):
                 num_1 = random.randint(lowest, highest)
                 num_2 = random.randint(lowest, highest)
                 num_3 = num_1*num_2
-                sign = ['*'== 'x', '/'=='÷']
+                sign = ['*', '/']
                 levels = random.choice(sign)
                 question = "{} {} {} = ".format(num_3, levels, num_2)
                 correct = eval(str(num_3) + levels + str(num_2))
                 answer = self.answers_entry
+                problems.append(question)
+                self.questions_box.configure(text="{}".format(question))
 
         elif problems_generator == 3:
             for selected_questions in range(questions):
                 num_1 = random.randint(lowest, highest)
                 num_3 = (num_1*num_1)
-                sign = ['**2' == '²', '**1/2'=='√']
+                sign = ['**2', '**1/2']
                 levels = random.choice(sign)
                 question = "{} {} = ".format(num_3, levels)
                 correct = eval(str(num_3) + levels)
@@ -181,17 +186,16 @@ class Quiz:
                 problems.append(question)
                 self.questions_box.configure(text="{}".format(question))
 
-                if answer == correct:
-                    print("Great job")
-                else:
-                    print(correct)
-                    print("oops")
-
         # Set questions to adjust questions
         self.questions.set(questions)
 
         # Edit label so user can see their questions
-        self.questions_label.configure(text="questions: {}".format(questions))
+        result = "Score = {}/{}| ".format(score, questions)
+        self.questions_label.append(result)
+
+
+
+
 
 
 # main routine
