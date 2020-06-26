@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 2
+        levels = 3
 
         # retrieve selected range
         lowest = 1
@@ -147,47 +147,68 @@ class Quiz:
         # Generate number of questions that user has entered
         # Generate numbers according to the values entered by user
         # Generate questions according to the level user chose
+
+
+        num_1 = random.randint(lowest, highest)
+        num_2 = random.randint(lowest, highest)
+
         if problems_generator == 1:
-            for selected_questions in range(questions):
-                num_1 = random.randint(lowest, highest)
-                num_2 = random.randint(lowest, highest)
-                num_3 = num_1 + num_2
-                sign = ['+', '-']
-                level = random.choice(sign)
-                question = "{} {} {} = ".format(num_3, level, num_2)
-                correct = eval(str(num_3) + level + str(num_2))
-                answer = self.answers_entry
-                problems.append(question)
-                self.questions_box.configure(text="{}".format(question))
+            num_3 = num_1 + num_2
+            sign = ['+', '-']
+            level = random.choice(sign)
+            question = "{} {} {} = ".format(num_3, level, num_2)
+            correct = eval(str(num_3) + level + str(num_2))
+            answer = self.answers_entry
+            if answer== correct:
+                print(text = "great")
+            problems.append(question)
+            self.questions_box.configure(text="{}".format(question))
 
         elif problems_generator == 2:
-            for selected_questions in range(questions):
-                num_1 = random.randint(lowest, highest)
-                num_2 = random.randint(lowest, highest)
-                num_3 = num_1*num_2
-                sign = ['*', '/']
-                level = random.choice(sign)
-                question = "{} {} {} = ".format(num_3, level, num_2)
-                correct = eval(str(num_3) + level + str(num_2))
-                answer = self.answers_entry
-                problems.append(question)
-                self.questions_box.configure(text="{}".format(question))
-                if answer == correct:
-                    print(correct)
-                    score= score+1
+            num_3 = num_1*num_2
+            sign = ['*', '/']
+
+            level = random.choice(sign)
+            if level == "*":
+                display_sign = "×"
+            else:
+                display_sign = "÷"
+
+            question = "{} {} {}".format(num_3, level, num_2)
+            print(question)
+            correct = eval(question)
+            print(correct)
+
+            display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
+            answer = self.answers_entry
+            problems.append(question)
+            self.questions_box.configure(text="{}".format(display_question))
+            if answer == correct:
+                print(correct)
+                score = score+1
 
         elif problems_generator == 3:
-            for selected_questions in range(questions):
-                num_1 = random.randint(lowest, highest)
-                num_3 = (num_1*num_1)
-                sign = ['**2', '**1/2']
-                level = random.choice(sign)
-                question = "{} {} = ".format(num_3, level)
-                correct = eval(str(num_3) + level)
-                answer = self.answers_entry
-                problems.append(question)
-                self.questions_box.configure(text="{}".format(question))
-                problems.append(score)
+
+            num_1 = random.randint(lowest, highest)
+            num_3 = (num_1*num_1)
+            sign = ['**2', '**1/2']
+            level = random.choice(sign)
+            if level == "**2":
+                display_sign = "²"
+            else:
+                display_sign = "√"
+            if level == "**2":
+                display_question = "{} {} ".format(num_3, display_sign)
+            else:
+                display_question = "{} {} ".format(display_sign, num_3)
+
+            question = "{} {} ".format(num_3, level)
+            correct = eval(question)
+            answer = self.answers_entry
+
+            problems.append(question)
+            self.questions_box.configure(text="{}".format(display_question))
+            problems.append(score)
 
         # Set questions to adjust questions
         self.questions.set(questions)
