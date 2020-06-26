@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 3
+        levels = 1
 
         # retrieve selected range
         lowest = 1
@@ -57,10 +57,16 @@ class Quiz:
         self.quiz_frame.grid()
 
         # Mode row 0
-        self.Mode_label = Label(self.quiz_frame, text="Quiz",
+        self.Mode_label = Label(self.quiz_frame,
                                 font="Arial 24 bold", padx=10,
                                 pady=10)
         self.Mode_label.grid(row=0)
+        if levels == 1:
+            self.Mode_label.config(text="Quiz (Easy Mode)")
+        elif levels == 2:
+            self.Mode_label.config(text="Quiz (Medium Mode)")
+        elif levels == 3:
+            self.Mode_label.config(text="Quiz (Hard Mode)")
 
         # Heading row 1
         self.heading_label = Label(self.quiz_frame, text=" Please, enter an answer in the white space below  and"
@@ -131,6 +137,7 @@ class Quiz:
                                   font="Arial 15 bold", bg="#808080", fg="white")
         self.help_button.grid(row=5, column=2, padx=2, pady=10)
 
+
     def generate_questions(self):
 
         # retrieve the questions from the initial function..
@@ -140,9 +147,10 @@ class Quiz:
         problems_generator = self.problems.get()
 
         # adjust the questions
+        score = 1
         questions -= 1
         problems = []
-        score = 1
+
 
         # Generate number of questions that user has entered
         # Generate numbers according to the values entered by user
@@ -158,9 +166,9 @@ class Quiz:
             level = random.choice(sign)
             question = "{} {} {} = ".format(num_3, level, num_2)
             correct = eval(str(num_3) + level + str(num_2))
-            answer = self.answers_entry
-            if answer== correct:
-                print(text = "great")
+            answer = int(input(self.answers_entry))
+            if answer == correct:
+                score = self.questions_label.configure(text="great")
             problems.append(question)
             self.questions_box.configure(text="{}".format(question))
 
