@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 1
+        levels = 2
 
         # retrieve selected range
         lowest = 1
@@ -147,7 +147,7 @@ class Quiz:
         problems_generator = self.problems.get()
 
         # adjust the questions
-        score = 1
+        score = 0
         questions -= 1
         problems = []
 
@@ -166,11 +166,23 @@ class Quiz:
             level = random.choice(sign)
             question = "{} {} {} = ".format(num_3, level, num_2)
             correct = eval(str(num_3) + level + str(num_2))
-            answer = int(input(self.answers_entry))
+            answer = self.answers_entry.get()
             if answer == correct:
-                score = self.questions_label.configure(text="great")
-            problems.append(question)
-            self.questions_box.configure(text="{}".format(question))
+                self.answers_entry.config(bg="#green")
+                self.questions_label.config(text="Correct\n"
+                                            "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score+1))
+                print(answer)
+            else:
+                self.answers_entry.config(bg="#ffafaf")
+                self.questions_label.config(text="Incorrect\n"
+                                            "The correct answer is:{}\n"
+                                              "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score))
+                print(answer)
+                problems.append(question)
+                self.questions_box.configure(text="{}".format(question))
+
 
         elif problems_generator == 2:
             num_3 = num_1*num_2
@@ -188,12 +200,22 @@ class Quiz:
             print(correct)
 
             display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
-            answer = self.answers_entry
-            problems.append(question)
-            self.questions_box.configure(text="{}".format(display_question))
+            answer = self.answers_entry.get()
             if answer == correct:
-                print(correct)
-                score = score+1
+                self.answers_entry.config(bg="#green")
+                self.questions_label.config(text="Correct\n"
+                                            "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score+1))
+                print(answer)
+            else:
+                self.answers_entry.config(bg="#ffafaf")
+                self.questions_label.config(text="Incorrect\n"
+                                            "The correct answer is:{}\n"
+                                            "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score))
+                print(answer)
+                problems.append(question)
+                self.questions_box.configure(text="{}".format(display_question))
 
         elif problems_generator == 3:
 
@@ -212,21 +234,30 @@ class Quiz:
 
             question = "{} {} ".format(num_3, level)
             correct = eval(question)
-            answer = self.answers_entry
-
-            problems.append(question)
-            self.questions_box.configure(text="{}".format(display_question))
-            problems.append(score)
+            answer = self.answers_entry.get()
+            if answer == correct:
+                self.answers_entry.config(bg="#green")
+                self.questions_label.config(text="Correct\n"
+                                            "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score+1))
+                print(answer)
+            else:
+                self.answers_entry.config(bg="#ffafaf")
+                self.questions_label.config(text="Incorrect\n"
+                                            "The correct answer is:{}\n"
+                                            "Questions: {} \n"\
+                                            "Score: {}\n".format(correct, questions, score))
+                print(correct)
+                problems.append(question)
+                self.questions_box.configure(text="{}".format(display_question))
 
         # Set questions to adjust questions
         self.questions.set(questions)
 
-        # Edit label so user can see their questions
-        self.questions_label.configure(text="questions: {} |"\
-                                            "score: {}".format(questions, score))
+
         if questions == 0:
             self.submit_button.config(state=DISABLED)
-            self.submit_button.config(text="Quiz Over")
+            self.submit_button.config(text="Quiz Ended")
 
 
 
