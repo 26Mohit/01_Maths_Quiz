@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 2
+        levels = 1
 
         # retrieve selected range
         lowest = 1
@@ -35,13 +35,15 @@ class Quiz:
         print(lowest)
         print(highest)
 
+
+
         # initialise variables
-        self.questions = IntVar()
+        self.num_questions = IntVar()
         self.lowest = IntVar()
         self.highest = IntVar()
 
         # Set number of questions to amount entered by users at start of quiz
-        self.questions.set(selected_questions)
+        self.num_questions.set(selected_questions)
 
         # Set range of numbers to values entered by users
         self.lowest.set(lowest)
@@ -113,8 +115,9 @@ class Quiz:
 
         # selected questions Label (row 3)
 
-        self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: 30"
-                                                           " and selected range of numbers: 0-50 ",
+        self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: {}"
+                                                           " and selected range of numbers: {}-{} ".format(selected_questions, lowest,
+                                                                                                           highest),
                                      font="Arial 12 bold",
                                      fg="green", wrap=400, justify=CENTER)
         self.questions_label.grid(row=3)
@@ -138,10 +141,11 @@ class Quiz:
         self.help_button.grid(row=5, column=2, padx=2, pady=10)
 
 
+
     def generate_questions(self):
 
         # retrieve the questions from the initial function..
-        questions = self.questions.get()
+        questions = self.num_questions.get()
         lowest = self.lowest.get()
         highest = self.highest.get()
         problems_generator = self.problems.get()
@@ -151,14 +155,13 @@ class Quiz:
         questions -= 1
         problems = []
 
-
         # Generate number of questions that user has entered
         # Generate numbers according to the values entered by user
         # Generate questions according to the level user chose
 
-
         num_1 = random.randint(lowest, highest)
         num_2 = random.randint(lowest, highest)
+
 
         if problems_generator == 1:
             num_3 = num_1 + num_2
@@ -168,20 +171,22 @@ class Quiz:
             correct = eval(str(num_3) + level + str(num_2))
             answer = self.answers_entry.get()
             if answer == correct:
-                self.answers_entry.config(bg="#green")
+                score = score + 1
+                self.answers_entry.config(bg="#00FF00")
                 self.questions_label.config(text="Correct\n"
-                                            "Questions: {} \n"\
-                                            "Score: {}\n".format(correct, questions, score+1))
+                                                 "Questions: {} \n" \
+                                                 "Score: {}\n".format(questions, score))
                 print(answer)
             else:
                 self.answers_entry.config(bg="#ffafaf")
                 self.questions_label.config(text="Incorrect\n"
-                                            "The correct answer is:{}\n"
-                                              "Questions: {} \n"\
-                                            "Score: {}\n".format(correct, questions, score))
-                print(answer)
-                problems.append(question)
+                                                 "The correct answer is:{}\n"
+                                                 "Questions: {} \n" \
+                                                 "Score: {}\n".format(correct, questions, score))
+                print(correct)
+
                 self.questions_box.configure(text="{}".format(question))
+
 
 
         elif problems_generator == 2:
@@ -252,15 +257,11 @@ class Quiz:
                 self.questions_box.configure(text="{}".format(display_question))
 
         # Set questions to adjust questions
-        self.questions.set(questions)
-
+        self.num_questions.set(questions)
 
         if questions == 0:
             self.submit_button.config(state=DISABLED)
             self.submit_button.config(text="Quiz Ended")
-
-
-
 
 
 
