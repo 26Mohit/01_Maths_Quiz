@@ -16,7 +16,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 2
+        levels = 1
 
         # retrieve selected range
         lowest = 1
@@ -35,14 +35,13 @@ class Quiz:
         print(lowest)
         print(highest)
 
-        self.correct = IntVar()
-
 
 
         # initialise variables
         self.num_questions = IntVar()
         self.lowest = IntVar()
         self.highest = IntVar()
+        self.correct = IntVar()
 
         # Set number of questions to amount entered by users at start of quiz
         self.num_questions.set(selected_questions)
@@ -96,7 +95,7 @@ class Quiz:
         self.submit_button = Button(self.answers_entry_frame,
                                        font="Arial 20 bold",
                                        text="Submit",
-                                    command=self.Check,
+                                    command=self.check_answers,
                                     bg="#FFFF33", width=12)
         self.submit_button.grid(row=2, column=0)
 
@@ -152,7 +151,9 @@ class Quiz:
         highest = self.highest.get()
         problems_generator = self.problems.get()
 
-
+        # adjust the questions
+        score = 0
+        questions -= 1
 
         # Generate number of questions that user has entered
         # Generate numbers according to the values entered by user
@@ -215,38 +216,37 @@ class Quiz:
 
             self.questions_box.configure(text="{}".format(display_question))
 
-
+        self.questions_label.configure(text="Questions: {}".format(questions))
 
         # Set questions to adjust questions
         self.num_questions.set(questions)
 
         if questions == 0:
-            self.submit_button.config(state=DISABLED)
+            self.next_button.config(state=DISABLED)
             self.submit_button.config(text="Quiz Ended")
+            self.questions_label.config(text="The quiz is over, thanks for playing\n"
+                                             "your final score is {}".format(score))
 
-    def Check(self):
+
+    def check_answers(self):
         questions = self.num_questions.get()
-        # adjust the questions
+        # adjust the score
         score = 0
-        questions -= 1
 
         var_correct = self.correct.get()
         answer = self.answers_entry.get()
         # check answers
         if answer == str(var_correct):
-            score += 1
+            score = score+1
             self.answers_entry.config(bg="#00FF00")
-            self.questions_label.config(text="Correct\n"
-                                             "Questions: {} \n" \
-                                             "Score: {}\n".format(var_correct, questions, score))
+            self.questions_label.config(text="Correct, Well Done\n"
+                                             "Score: {}\n".format(score))
 
         else:
             self.answers_entry.config(bg="#ffafaf")
             self.questions_label.config(text="Incorrect\n"
                                              "The correct answer is:{}\n"
-                                             "Questions: {} \n" \
-                                             "Score: {}\n".format(var_correct, questions, score))
-
+                                             "Score: {}\n".format(var_correct, score))
 
 
 
