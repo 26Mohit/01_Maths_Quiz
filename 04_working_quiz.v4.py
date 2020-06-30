@@ -15,8 +15,8 @@ class Start:
     def to_play(self):
 
         # retrieve selected questions
-        selected_questions = 10
-        levels = 1
+        selected_questions = 5
+        levels = 3
 
         # retrieve selected range
         lowest = 1
@@ -34,8 +34,6 @@ class Quiz:
         print(selected_questions)
         print(lowest)
         print(highest)
-
-
 
         # initialise variables
         self.num_questions = IntVar()
@@ -98,6 +96,7 @@ class Quiz:
                                     command=self.check_answers,
                                     bg="#FFFF33", width=12)
         self.submit_button.grid(row=2, column=0)
+        self.submit_button.config(state=DISABLED)
 
         self.next_button = Button(self.answers_entry_frame,
                                        font="Arial 18 bold", width=7,command=self.generate_questions,
@@ -141,8 +140,6 @@ class Quiz:
                                   font="Arial 15 bold", bg="#808080", fg="white")
         self.help_button.grid(row=5, column=2, padx=2, pady=10)
 
-
-
     def generate_questions(self):
 
         # retrieve the questions from the initial function..
@@ -162,17 +159,15 @@ class Quiz:
         num_1 = random.randint(lowest, highest)
         num_2 = random.randint(lowest, highest)
 
-
         if problems_generator == 1:
             num_3 = num_1 + num_2
             sign = ['+', '-']
             level = random.choice(sign)
             question = "{} {} {} = ".format(num_3, level, num_2)
             var_correct = eval(str(num_3) + level + str(num_2))
-            answer = self.answers_entry.get()
+            self.answers_entry.get()
             self.correct.set(var_correct)
             self.questions_box.configure(text="{}".format(question))
-
 
         elif problems_generator == 2:
             num_3 = num_1*num_2
@@ -190,7 +185,7 @@ class Quiz:
 
             display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
 
-            answer = self.answers_entry.get()
+            self.answers_entry.get()
 
             self.questions_box.configure(text="{}".format(display_question))
 
@@ -209,24 +204,26 @@ class Quiz:
             else:
                 display_question = "{} {} ".format(display_sign, num_3)
 
-            question = "{} {} ".format(num_3, level)
+            if display_sign == "²":
+                question = "{} {} ".format(num_3, level)
+            else:
+                question = "{} **.5".format(num_3)
+
             var_correct = eval(question)
-            answer = self.answers_entry.get()
+            var_correct = int(var_correct)
+            var_correct = str(var_correct)
+            self.answers_entry.get()
             self.correct.set(var_correct)
 
             self.questions_box.configure(text="{}".format(display_question))
+
+        self.next_button.config(state=DISABLED)
+        self.submit_button.config(state=NORMAL)
 
         self.questions_label.configure(text="Questions: {}".format(questions))
 
         # Set questions to adjust questions
         self.num_questions.set(questions)
-
-        if questions == 0:
-            self.next_button.config(state=DISABLED)
-            self.submit_button.config(text="Quiz Ended")
-            self.questions_label.config(text="The quiz is over, thanks for playing\n"
-                                             "your final score is {}".format(score))
-
 
     def check_answers(self):
         questions = self.num_questions.get()
@@ -237,8 +234,8 @@ class Quiz:
         answer = self.answers_entry.get()
         # check answers
         if answer == str(var_correct):
-            score = score+1
-            self.answers_entry.config(bg="#00FF00")
+            score = score + 1
+            self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
                                              "Score: {}\n".format(score))
 
@@ -248,6 +245,14 @@ class Quiz:
                                              "The correct answer is:{}\n"
                                              "Score: {}\n".format(var_correct, score))
 
+        self.submit_button.config(state=DISABLED)
+        self.next_button.config(state=NORMAL)
+
+        if questions == 0:
+          self.next_button.config(state=DISABLED)
+          self.submit_button.config(text="Quiz Ended")
+          self.questions_label.config(text="The quiz is over, thanks for playing\n"
+                                           "your final score is {}".format(score))
 
 
 # main routine
