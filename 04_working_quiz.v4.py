@@ -16,7 +16,7 @@ class Start:
     def to_play(self):
 
         # retrieve selected questions
-        selected_questions = 10
+        selected_questions = 5
         levels = 2
 
         # retrieve selected range
@@ -225,6 +225,7 @@ class Quiz:
 
         self.next_button.config(state=DISABLED)
         self.answers_entry.config(bg="white")
+        self.answers_entry.delete(0, END)
         self.submit_button.config(state=NORMAL)
 
         self.questions_label.configure(text="Questions: {}".format(questions))
@@ -255,6 +256,7 @@ class Quiz:
 
         self.submit_button.config(state=DISABLED)
         self.next_button.config(state=NORMAL)
+
 
         if questions == 0:
           self.next_button.config(state=DISABLED)
