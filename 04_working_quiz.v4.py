@@ -2,6 +2,7 @@ from tkinter import *
 from functools import partial   # To prevent unwanted windows
 import random
 
+
 class Start:
     def __init__(self, parent):
 
@@ -15,8 +16,8 @@ class Start:
     def to_play(self):
 
         # retrieve selected questions
-        selected_questions = 5
-        levels = 3
+        selected_questions = 10
+        levels = 2
 
         # retrieve selected range
         lowest = 1
@@ -40,6 +41,7 @@ class Quiz:
         self.lowest = IntVar()
         self.highest = IntVar()
         self.correct = IntVar()
+        self.score = IntVar()
 
         # Set number of questions to amount entered by users at start of quiz
         self.num_questions.set(selected_questions)
@@ -132,7 +134,7 @@ class Quiz:
         self.results_button.grid(row=5, column=0, padx=2, pady=10)
 
         self.quit_button = Button(self.buttons_frame, text="End Quiz",
-                                  font="Arial 15 bold",
+                                  font="Arial 15 bold", command=self.to_end,
                                   bg="#EA6B66", fg="white")
         self.quit_button.grid(row=5, column=1, padx=5, pady=5)
 
@@ -149,7 +151,6 @@ class Quiz:
         problems_generator = self.problems.get()
 
         # adjust the questions
-        score = 0
         questions -= 1
 
         # Generate number of questions that user has entered
@@ -179,12 +180,17 @@ class Quiz:
             else:
                 display_sign = "÷"
 
-            question = "{} {} {}".format(num_3, level, num_2)
+            if level == '*':
+                display_question = "{} {} {} = ".format(num_1, display_sign, num_2)
+            else:
+                display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
+
+            if display_sign == "×":
+                question = "{} {} {}".format(num_1, level, num_2)
+            else:
+                question = "{} / {} ".format(num_3, num_2)
             var_correct = eval(question)
             self.correct.set(var_correct)
-
-            display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
-
             self.answers_entry.get()
 
             self.questions_box.configure(text="{}".format(display_question))
@@ -200,12 +206,12 @@ class Quiz:
             else:
                 display_sign = "√"
             if level == "**2":
-                display_question = "{} {} ".format(num_3, display_sign)
+                display_question = "{} {} ".format(num_1, display_sign)
             else:
                 display_question = "{} {} ".format(display_sign, num_3)
 
             if display_sign == "²":
-                question = "{} {} ".format(num_3, level)
+                question = "{} {} ".format(num_1, level)
             else:
                 question = "{} **.5".format(num_3)
 
@@ -218,6 +224,7 @@ class Quiz:
             self.questions_box.configure(text="{}".format(display_question))
 
         self.next_button.config(state=DISABLED)
+        self.answers_entry.config(bg="white")
         self.submit_button.config(state=NORMAL)
 
         self.questions_label.configure(text="Questions: {}".format(questions))
@@ -228,13 +235,14 @@ class Quiz:
     def check_answers(self):
         questions = self.num_questions.get()
         # adjust the score
-        score = 0
+        score = self.score.get()
 
         var_correct = self.correct.get()
         answer = self.answers_entry.get()
         # check answers
         if answer == str(var_correct):
             score = score + 1
+            self.score.set(score)
             self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
                                              "Score: {}\n".format(score))
@@ -254,6 +262,8 @@ class Quiz:
           self.questions_label.config(text="The quiz is over, thanks for playing\n"
                                            "your final score is {}".format(score))
 
+    def to_end(self):
+        root.destroy()
 
 # main routine
 if __name__ == "__main__":
