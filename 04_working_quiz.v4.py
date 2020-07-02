@@ -168,6 +168,7 @@ class Quiz:
             var_correct = eval(str(num_3) + level + str(num_2))
             self.answers_entry.get()
             self.correct.set(var_correct)
+            print(question)
             self.questions_box.configure(text="{}".format(question))
 
         elif problems_generator == 2:
@@ -192,7 +193,7 @@ class Quiz:
             var_correct = eval(question)
             self.correct.set(var_correct)
             self.answers_entry.get()
-
+            print(display_question)
             self.questions_box.configure(text="{}".format(display_question))
 
         elif problems_generator == 3:
@@ -220,7 +221,7 @@ class Quiz:
             var_correct = str(var_correct)
             self.answers_entry.get()
             self.correct.set(var_correct)
-
+            print(display_question)
             self.questions_box.configure(text="{}".format(display_question))
 
         self.next_button.config(state=DISABLED)
@@ -247,12 +248,20 @@ class Quiz:
             self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
                                              "Score: {}\n".format(score))
+            print("correct")
+            print(score)
 
         else:
             self.answers_entry.config(bg="#ffafaf")
             self.questions_label.config(text="Incorrect\n"
                                              "The correct answer is:{}\n"
                                              "Score: {}\n".format(var_correct, score))
+            print("incorrect")
+            print(answer)
+            print(var_correct)
+            print(score)
+
+
 
         self.submit_button.config(state=DISABLED)
         self.next_button.config(state=NORMAL)
