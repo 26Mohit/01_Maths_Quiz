@@ -191,6 +191,8 @@ class Quiz:
             else:
                 question = "{} / {} ".format(num_3, num_2)
             var_correct = eval(question)
+            var_correct = int(var_correct)
+            var_correct = str(var_correct)
             self.correct.set(var_correct)
             self.answers_entry.get()
             print(display_question)
@@ -261,11 +263,8 @@ class Quiz:
             print(var_correct)
             print(score)
 
-
-
         self.submit_button.config(state=DISABLED)
         self.next_button.config(state=NORMAL)
-
 
         if questions == 0:
           self.next_button.config(state=DISABLED)
