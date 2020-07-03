@@ -17,11 +17,11 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 5
-        levels = 2
+        levels = 1
 
         # retrieve selected range
-        lowest = 1
-        highest = 12
+        lowest = 0
+        highest = 0
 
         Quiz(self, levels, selected_questions, lowest, highest)
 
@@ -53,6 +53,9 @@ class Quiz:
         # Get problems according to the mode chosen by users
         self.problems = IntVar()
         self.problems.set(levels)
+
+        # results list
+        self.quiz_results_list = [selected_questions]
 
         # GUI setup
         self.quiz_box = Toplevel()
@@ -236,7 +239,9 @@ class Quiz:
         # Set questions to adjust questions
         self.num_questions.set(questions)
 
-    def check_answers(self):
+
+    def check_answers(self, selected_questions):
+        print(selected_questions)
         questions = self.num_questions.get()
         # adjust the score
         score = self.score.get()
@@ -246,7 +251,6 @@ class Quiz:
         # check answers
         if answer == str(var_correct):
             score = score + 1
-            self.score.set(score)
             self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
                                              "Score: {}\n".format(score))
@@ -265,12 +269,16 @@ class Quiz:
 
         self.submit_button.config(state=DISABLED)
         self.next_button.config(state=NORMAL)
+        self.score.set(score)
 
         if questions == 0:
           self.next_button.config(state=DISABLED)
           self.submit_button.config(text="Quiz Ended")
           self.questions_label.config(text="The quiz is over, thanks for playing\n"
-                                           "your final score is {}".format(score))
+                                           "your final score is {}\n"
+                                           "your percentage is {}"
+                                            .format(score, score/selected_questions[0]*100))
+
 
     def to_end(self):
         root.destroy()
