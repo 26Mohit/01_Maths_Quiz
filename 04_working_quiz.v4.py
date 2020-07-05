@@ -17,11 +17,11 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 5
-        levels = 1
+        levels = 2
 
         # retrieve selected range
         lowest = 0
-        highest = 0
+        highest = 1
 
         Quiz(self, levels, selected_questions, lowest, highest)
 
@@ -54,8 +54,7 @@ class Quiz:
         self.problems = IntVar()
         self.problems.set(levels)
 
-        # results list
-        self.quiz_results_list = [selected_questions]
+        self.quiz_results_list = [selected_questions, selected_questions]
 
         # GUI setup
         self.quiz_box = Toplevel()
@@ -193,6 +192,8 @@ class Quiz:
                 question = "{} {} {}".format(num_1, level, num_2)
             else:
                 question = "{} / {} ".format(num_3, num_2)
+            if num_1 or num_2 == 0:
+                question = "{} * {}".format(num_1, num_2)
             var_correct = eval(question)
             var_correct = int(var_correct)
             var_correct = str(var_correct)
@@ -239,9 +240,7 @@ class Quiz:
         # Set questions to adjust questions
         self.num_questions.set(questions)
 
-
-    def check_answers(self, selected_questions):
-        print(selected_questions)
+    def check_answers(self):
         questions = self.num_questions.get()
         # adjust the score
         score = self.score.get()
@@ -253,15 +252,15 @@ class Quiz:
             score = score + 1
             self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
-                                             "Score: {}\n".format(score))
+                                             "Score: {}\n".format(score), )
             print("correct")
             print(score)
 
         else:
             self.answers_entry.config(bg="#ffafaf")
-            self.questions_label.config(text="Incorrect\n"
+            self.questions_label.config(text="Sorry, the answer is Incorrect\n"
                                              "The correct answer is:{}\n"
-                                             "Score: {}\n".format(var_correct, score))
+                                             "Score: {}\n".format(var_correct, score), fg="#ff0000")
             print("incorrect")
             print(answer)
             print(var_correct)
@@ -271,13 +270,28 @@ class Quiz:
         self.next_button.config(state=NORMAL)
         self.score.set(score)
 
+        selected_questions = self.quiz_results_list[1]
+
         if questions == 0:
-          self.next_button.config(state=DISABLED)
-          self.submit_button.config(text="Quiz Ended")
-          self.questions_label.config(text="The quiz is over, thanks for playing\n"
-                                           "your final score is {}\n"
-                                           "your percentage is {}"
-                                            .format(score, score/selected_questions[0]*100))
+            self.next_button.config(state=DISABLED)
+            self.submit_button.config(text="Quiz Ended")
+            if selected_questions - score == 0:
+                self.questions_label.config(text="Congratulation, you have successfully accomplished"
+                                                 " the quiz with a 100% score, , thanks for playing. \n"
+                                                 "your final score is {}/{}\n".format(score, selected_questions))
+            if selected_questions - score <= selected_questions/2:
+                 self.questions_label.config(text="Good Job, you have successfully accomplished the quiz with a score above average"
+                                                  ", thanks for playing. \n"
+                                                  "your final score is {}/{}\n".format(score, selected_questions), fg="#ff9933")
+            if selected_questions - score >= selected_questions/2:
+                self.questions_label.config(text="Well played, but try to achieve better score next time, thanks for playing.\n"
+                                                 "your final score is {}/{}\n".format(score,selected_questions), fg="#ffcc00")
+            if selected_questions - score == selected_questions:
+                self.questions_label.config(text="Sorry, you failed to accomplished the quiz, work hard on these questions"
+                                                 " and try better next time, thanks for playing.\n"
+                                                 "your final score is {}/{}\n".format(score, selected_questions), fg="#ffafaf")
+
+        self.quiz_results_list[0] = score
 
 
     def to_end(self):

@@ -78,33 +78,54 @@ class QuizResults:
         self.details_frame.grid(row=2)
 
         # Score (row 2.0)
-        self.score_label = Label(self.details_frame, font=heading, text="Score: {}/{}"
-                                 .format(quiz_results[0], quiz_results[1]))
+        self.score_label = Label(self.details_frame, font=heading, text="Score:", anchor="e")
         self.score_label.grid(row=0, column=0, padx=0)
+
+        self.score_label = Label(self.details_frame, font=content, text="{}/{}"
+                                 .format(quiz_results[0], quiz_results[1]), anchor="w")
+        self.score_label.grid(row=0, column=1, padx=0)
 
         # Correct answers (row 2.1)
         self.correct_ans_label = Label(self.details_frame, font=heading,
-                                       text="Correct Answers: {}"
-                                       .format(quiz_results[0]))
+                                       text="Correct Answers:", anchor="e")
         self.correct_ans_label.grid(row=1, column=0, padx=0)
+
+        self.correct_ans_label = Label(self.details_frame, font=content,
+                                       text="{}"
+                                       .format(quiz_results[0]), anchor="w")
+        self.correct_ans_label.grid(row=1, column=1, padx=0)
 
         # Wrong Answers (row 2.2)
         self.wrong_ans_label = Label(self.details_frame, font=heading,
-                                     text="Wrong Answers: {}"
-                                     .format(quiz_results[1]-quiz_results[0]))
-        self.wrong_ans_label.grid(row=3)
+                                     text="Wrong Answers: ", anchor="e")
+        self.wrong_ans_label.grid(row=3, column=0, padx=0)
+
+        self.wrong_ans_label = Label(self.details_frame, font=content,
+                                     text="{}"
+                                     .format(quiz_results[1]-quiz_results[0]), anchor="w")
+        self.wrong_ans_label.grid(row=3, column=1, padx=0)
 
         # Percentage (row 2.3)
         self.percentage_label = Label(self.details_frame, font=heading,
-                                      text="Percentage: {:.1f}%".format(quiz_results[0]/quiz_results[1]*100))
-        self.percentage_label.grid(row=4)
+                                      text="Percentage: ", anchor="e")
+        self.percentage_label.grid(row=4, column=0, padx=0)
+
+        self.percentage_label = Label(self.details_frame, font=content,
+                                      text=" {:.1f}%"
+                                      .format(quiz_results[0]/quiz_results[1]*100), anchor="w")
+        self.percentage_label.grid(row=4, column=1, padx=0)
 
         # Dismiss button (row 3)
         self.dismiss_button = Button(self.details_frame, text="Dismiss",
                                      font="Arial 12 bold",
                                      width=10, bg="#660000", fg="white",
                                      command=partial(self.close_results, partner))
-        self.dismiss_button.grid(row=5, column=0, pady=10)
+        self.dismiss_button.grid(row=5, column=1, pady=10)
+
+        # Export Button
+        self.export_button = Button(self.details_frame, text="Export...",
+                                    font="Arial 12 bold", fg="white", bg="#003366", width="10")
+        self.export_button.grid(row=5, column=0)
 
     def close_results(self, partner):
         # Put stats back to normal...
