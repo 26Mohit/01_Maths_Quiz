@@ -43,7 +43,6 @@ class Quiz:
 
 class QuizResults:
     def __init__(self, partner, quiz_history, quiz_results):
-
         print(quiz_history)
 
         # disable help button
@@ -128,24 +127,37 @@ class QuizResults:
                                      command=partial(self.close_results, partner))
         self.dismiss_button.grid(row=5, column=1, pady=10)
 
+        all_quiz_results = ["Score: {}/{}\n"
+                            "Correct answers:{}\n"
+                            "Wrong answers:{}\n"
+                            "Percentage:{}%".format(quiz_results[0], quiz_results[1],
+                                                    quiz_results[0],
+                                                    (quiz_results[1]-quiz_results[0]),
+                                                    (quiz_results[0] / quiz_results[1]*100))]
+
+        all_quiz_results.append(all_quiz_results)
+        all_quiz_results.append("{}".format(len(quiz_history)))
+
         # Export Button
         self.export_button = Button(self.details_frame, text="Export...",
                                     font="Arial 12 bold", fg="white", bg="#003366", width="10"
-                                    , command=lambda: self.export(quiz_history, quiz_results))
+                                    , command=lambda: self.export(quiz_history, all_quiz_results))
         self.export_button.grid(row=5, column=0, pady=10)
+
+
 
     def close_results(self, partner):
         # Put stats back to normal...
         partner.results_button.config(state=NORMAL)
         self.results_box.destroy()
 
-    def export(self, partner, quiz_history):
-        Export(self, partner, quiz_history)
+    def export(self, partner, quiz_history, all_quiz_results):
+        Export(self, partner, quiz_history, all_quiz_results)
 
 
 class Export:
     def __init__(self, partner, quiz_history, all_quiz_results):
-
+        print(all_quiz_results)
         # disable export button
         partner.export_button.config(state=DISABLED)
 
@@ -255,6 +267,7 @@ class Export:
             # Game Stats
             for rounds in quiz_results:
                 f.write(rounds + "\n")
+
 
             # Heading for Rounds
             f.write("\nRound Details\n\n")
