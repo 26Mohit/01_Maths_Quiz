@@ -275,7 +275,7 @@ class Quiz:
         if questions == 0:
             self.next_button.config(state=DISABLED)
             self.submit_button.config(text="Quiz Ended")
-            if selected_questions/score == 1:
+            if selected_questions - score == 0:
                 self.questions_label.config(text="Congratulation, you have successfully accomplished"
                                                  " the quiz with a 100% score, thanks for playing. \n"
                                                  "your final score is {}/{}\n".format(score, selected_questions))

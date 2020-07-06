@@ -31,9 +31,9 @@ class Start:
                                                " Before selecting a level, "
                                                "please enter the number of question between (5-30)"
                                                " you would like to have in your quiz."
-                                               " Then please enter the range of numbers between 1-1000"
+                                               " Then please enter the range of numbers between 0-1000"
                                                " you would like to see in your quiz. "
-                                               " For Medium and Hard Levels recommended range is 1-20."
+                                               " For Medium and Hard Levels recommended range is 0-20."
                                                " Please choose a range of at least 10 numbers. ",
                                           wrap=550, justify=LEFT, padx=10, pady=10)
         self.quiz_instructions.grid(row=1)
@@ -52,6 +52,12 @@ class Start:
         self.questions_entry = Entry(self.questions_entry_frame,
                                         font="Arial 22 bold", width=15)
         self.questions_entry.grid(row=0)
+
+        self.enter_button = Button(self.questions_entry_frame,
+                                       font="Arial 14 bold",
+                                       text="Enter", bg="#FF9933",
+                                       command=self.check_inputs)
+        self.enter_button.grid(row=0, column=1)
 
         self.questions_error_label = Label(self.questions_entry_frame, fg="maroon",
                                         text="", font="Arial 10 bold", wrap=275,
@@ -99,6 +105,12 @@ class Start:
                                         justify=LEFT)
         self.highest_error_label.grid(row=1, columnspan=2, pady=5)
 
+        self.select_button = Button(self.range_entry_frame,
+                                       font="Arial 14 bold",
+                                       text="Select", bg="#FF9933",
+                                       command=self.check_range)
+        self.select_button.grid(row=0, column=4)
+
         # Error Label goes here
         self.range_error_label = Label(self.start_frame, fg="red", font="Arial 12 italic",
                                         text="", wrap=400)
@@ -119,30 +131,32 @@ class Start:
         button_font = "Arial 16 bold"
         # Blue Easy level button...
         self.easy_level_button = Button(self.levels_frame, text="Easy (+/-)",
-                                        command=lambda:(self.to_play(1),
-                                                        self.check_inputs(),
-                                                        self.check_range()),
+                                        command=lambda:(self.to_play(1)),
                                         font=button_font, bg="#00CCCC",
                                         width=18, height=1)
         self.easy_level_button.grid(row=9, column=1, pady=10)
 
         # green medium level button...
         self.medium_level_button = Button(self.levels_frame, text="Medium (x/÷)",
-                                          command=lambda:(self.to_play(2),
-                                                          self.check_inputs(),
-                                                          self.check_range()),
+                                          command=lambda:(self.to_play(2)),
                                            font=button_font, bg="#99FF33",
                                           width=18, height=1)
         self.medium_level_button.grid(row=10, column=1, padx=5, pady=10)
 
         # red hard level button...
         self.hard_level_button = Button(self.levels_frame, text="Hard (²/√)",
-                                        command=lambda:(self.to_play(3),
-                                                        self.check_inputs(),
-                                                        self.check_range()),
+                                        command=lambda:(self.to_play(3)),
                                         font=button_font, bg="#ff3333",
                                         width=18, height=1)
         self.hard_level_button.grid(row=11, column=1, pady=10)
+
+        # Disable all levels buttons at start
+        self.easy_level_button.config(state=DISABLED)
+        self.medium_level_button.config(state=DISABLED)
+        self.hard_level_button.config(state=DISABLED)
+
+        # Disable the select button before users enter the amount of questions
+        self.select_button.config(state=DISABLED)
 
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
@@ -161,6 +175,11 @@ class Start:
         # change background to white (for testing purposes)...
         self.questions_entry.config(bg="white")
         self.questions_error_label.config(text="")
+        # Disable all levels buttons in case user changes mind and
+        # decreases amount entered.
+        self.easy_level_button.config(state=DISABLED)
+        self.medium_level_button.config(state=DISABLED)
+        self.hard_level_button.config(state=DISABLED)
 
         try:
             selected_questions = int(selected_questions)
@@ -172,6 +191,7 @@ class Start:
                 has_errors = "yes"
                 error_feedback = "please choose a number between 5-30"
 
+
         except ValueError:
             has_errors = "yes"
             error_feedback = "Please enter a whole number (no text / decimals)"
@@ -180,6 +200,9 @@ class Start:
             self.questions_entry.config(bg=error_back)
             self.questions_error_label.config(text=error_feedback)
         else:
+            self.questions_entry.config(bg="#57FF5C")
+            # enable select button
+            self.select_button.config(state=NORMAL)
             # set selected questions to number entered by user
             self.questions_amount.set(selected_questions)
 
@@ -197,6 +220,12 @@ class Start:
         self.highest_entry.config(bg="white")
         self.range_error_label.config(text="")
 
+        # Disable all levels buttons in case user changes mind and
+        # decreases amount entered.
+        self.easy_level_button.config(state=DISABLED)
+        self.medium_level_button.config(state=DISABLED)
+        self.hard_level_button.config(state=DISABLED)
+
         try:
             lowest_entry = int(lowest)
             highest_entry = int(highest)
@@ -206,13 +235,13 @@ class Start:
                 error_feedback = "please, enter a lower value in the lowest box and" \
                                  " a higher value in the highest box."
 
-            elif lowest_entry < 1:
+            elif lowest_entry < 0:
                 has_errors = "yes"
-                error_feedback = "Please, choose numbers between 1-1000."
+                error_feedback = "Please, choose numbers between 0-1000."
 
             elif highest_entry > 1000:
                 has_errors = "yes"
-                error_feedback = "Please, choose numbers between 1-1000."
+                error_feedback = "Please, choose numbers between 0-1000."
 
             elif highest_entry - lowest_entry < 10:
                 has_errors = "yes"
@@ -229,6 +258,12 @@ class Start:
             self.range_error_label.config(text=error_feedback)
 
         else:
+            self.lowest_entry.config(bg="#57FF5C")
+            self.highest_entry.config(bg="#57FF5C")
+            # enable easy and medium level buttons
+            self.easy_level_button.config(state=NORMAL)
+            self.medium_level_button.config(state=NORMAL)
+            self.hard_level_button.config(state=NORMAL)
             # set selected range to amounts entered by user
             self.lowest.set(lowest)
             self.highest.set(highest)
@@ -253,10 +288,6 @@ class Start:
 
 class Quiz:
     def __init__(self, partner, levels, selected_questions, lowest, highest):
-        print(levels)
-        print(selected_questions)
-        print(lowest)
-        print(highest)
 
         # initialise variables
         self.num_questions = IntVar()
@@ -276,7 +307,9 @@ class Quiz:
         self.problems = IntVar()
         self.problems.set(levels)
 
+        # list for holding results
         self.quiz_results_list = [selected_questions, selected_questions]
+        self.round_results_list = []
 
         # GUI setup
         self.quiz_box = Toplevel()
@@ -363,6 +396,7 @@ class Quiz:
         self.quit_button.grid(row=5, column=1, padx=5, pady=5)
 
         self.help_button = Button(self.buttons_frame, text="How to Play?",
+                                  command=lambda:(self.to_help()),
                                   font="Arial 15 bold", bg="#808080", fg="white")
         self.help_button.grid(row=5, column=2, padx=2, pady=10)
 
@@ -381,7 +415,7 @@ class Quiz:
         # Generate numbers according to the values entered by user
         # Generate questions according to the level user chose
 
-        num_1 = random.randint(lowest, highest)
+        num_1 = random.randint(1, highest)
         num_2 = random.randint(lowest, highest)
 
         if problems_generator == 1:
@@ -392,7 +426,6 @@ class Quiz:
             var_correct = eval(str(num_3) + level + str(num_2))
             self.answers_entry.get()
             self.correct.set(var_correct)
-            print(question)
             self.questions_box.configure(text="{}".format(question))
 
         elif problems_generator == 2:
@@ -408,19 +441,18 @@ class Quiz:
             if level == '*':
                 display_question = "{} {} {} = ".format(num_1, display_sign, num_2)
             else:
-                display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
+                display_question = "{} {} {} = ".format(num_3, display_sign, num_1)
 
             if display_sign == "×":
                 question = "{} {} {}".format(num_1, level, num_2)
             else:
-                question = "{} / {} ".format(num_3, num_2)
+                question = "{} / {} ".format(num_3, num_1)
 
             var_correct = eval(question)
             var_correct = int(var_correct)
             var_correct = str(var_correct)
             self.correct.set(var_correct)
             self.answers_entry.get()
-            print(display_question)
             self.questions_box.configure(text="{}".format(display_question))
 
         elif problems_generator == 3:
@@ -448,7 +480,6 @@ class Quiz:
             var_correct = str(var_correct)
             self.answers_entry.get()
             self.correct.set(var_correct)
-            print(display_question)
             self.questions_box.configure(text="{}".format(display_question))
 
         self.next_button.config(state=DISABLED)
@@ -474,30 +505,24 @@ class Quiz:
             self.answers_entry.config(bg="#57FF5C")
             self.questions_label.config(text="Correct, Well Done\n"
                                              "Score: {}\n".format(score), )
-            print("correct")
-            print("you entered:{}".format(answer))
-            print("score:{}".format(score))
 
         else:
             self.answers_entry.config(bg="#ffafaf")
             self.questions_label.config(text="Sorry, the answer is Incorrect\n"
                                              "The correct answer is:{}\n"
                                              "Score: {}\n".format(var_correct, score))
-            print("incorrect")
-            print("you entered:{}".format(answer))
-            print("the correct answer:{}".format(var_correct))
-            print("score:{}".format(score))
 
         self.submit_button.config(state=DISABLED)
         self.next_button.config(state=NORMAL)
         self.score.set(score)
 
+        self.quiz_results_list[0] = score
         selected_questions = self.quiz_results_list[1]
 
         if questions == 0:
             self.next_button.config(state=DISABLED)
             self.submit_button.config(text="Quiz Ended")
-            if selected_questions/score == 1:
+            if selected_questions - score == 0:
                 self.questions_label.config(text="Congratulation, you have successfully accomplished"
                                                  " the quiz with a 100% score, thanks for playing. \n"
                                                  "your final score is {}/{}\n".format(score, selected_questions))
@@ -513,14 +538,17 @@ class Quiz:
                                                  " and try better next time, thanks for playing.\n"
                                                  "your final score is {}/{}\n".format(score, selected_questions), fg="#ff0000")
 
-        self.quiz_results_list[0] = score
-
+    # Add results to the result list
+    round_results = "{} | correct | You entered:{} | Score:{}\n"
 
     def to_end(self):
         root.destroy()
 
+    def to_help(self):
+        get_help = Help(self)
 
-
+    def to_results(self, quiz_history, quiz_results):
+        QuizResults(self, quiz_history, quiz_results)
 
 
 class Help:
@@ -575,6 +603,103 @@ class Help:
         # Put help back to normal...
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
+
+
+class QuizResults:
+    def __init__(self, partner, quiz_history, quiz_results):
+
+        # disable help button
+        partner.results_button.config(state=DISABLED)
+
+        heading = "Arial 12 bold"
+        content = "Arial 12"
+
+        # Sets up child window (i.e: history box)
+        self.results_box = Toplevel()
+
+        # if users press cross at top, closes help and 'releases' help button
+        self.results_box.protocol('WM_DELETE_WINDOW', partial(self.close_results, partner))
+
+        # Set up GUI Frame
+        self.results_frame = Frame(self.results_box)
+        self.results_frame.grid()
+
+        # Set up help heading (row 0)
+        self.results_heading = Label(self.results_frame,text="Quiz Results",
+                                 font="arial 19 bold")
+        self.results_heading.grid(row=0)
+
+        # To Export <instruction>  (row 1)
+        self.export_instructions = Label(self.results_frame,
+                                         text="Here are your quiz results "
+                                              "Please use the "
+                                              "Export button to access the results "
+                                              "of each round that you played ",
+                                         wrap=250,
+                                         font="arial 10 italic",
+                                         justify=LEFT, width=40, fg="green",
+                                         padx=10, pady=10)
+        self.export_instructions.grid(row=1)
+
+        # Selected Questions (row 2)
+        self.details_frame = Frame(self.results_frame)
+        self.details_frame.grid(row=2)
+
+        # Score (row 2.0)
+        self.score_label = Label(self.details_frame, font=heading, text="Score:", anchor="e")
+        self.score_label.grid(row=0, column=0, padx=0)
+
+        self.score_label = Label(self.details_frame, font=content, text="{}/{}"
+                                 .format(quiz_results[0], quiz_results[1]), anchor="w")
+        self.score_label.grid(row=0, column=1, padx=0)
+
+        # Correct answers (row 2.1)
+        self.correct_ans_label = Label(self.details_frame, font=heading,
+                                       text="Correct Answers:", anchor="e")
+        self.correct_ans_label.grid(row=1, column=0, padx=0)
+
+        self.correct_ans_label = Label(self.details_frame, font=content,
+                                       text="{}"
+                                       .format(quiz_results[0]), anchor="w")
+        self.correct_ans_label.grid(row=1, column=1, padx=0)
+
+        # Wrong Answers (row 2.2)
+        self.wrong_ans_label = Label(self.details_frame, font=heading,
+                                     text="Wrong Answers: ", anchor="e")
+        self.wrong_ans_label.grid(row=3, column=0, padx=0)
+
+        self.wrong_ans_label = Label(self.details_frame, font=content,
+                                     text="{}"
+                                     .format(quiz_results[1]-quiz_results[0]), anchor="w")
+        self.wrong_ans_label.grid(row=3, column=1, padx=0)
+
+        # Percentage (row 2.3)
+        self.percentage_label = Label(self.details_frame, font=heading,
+                                      text="Percentage: ", anchor="e")
+        self.percentage_label.grid(row=4, column=0, padx=0)
+
+        self.percentage_label = Label(self.details_frame, font=content,
+                                      text=" {:.1f}%"
+                                      .format(quiz_results[0]/quiz_results[1]*100), anchor="w")
+        self.percentage_label.grid(row=4, column=1, padx=0)
+
+        # Dismiss button (row 3)
+        self.dismiss_button = Button(self.details_frame, text="Dismiss",
+                                     font="Arial 12 bold",
+                                     width=10, bg="#660000", fg="white",
+                                     command=partial(self.close_results, partner))
+        self.dismiss_button.grid(row=5, column=1, pady=10)
+
+        # Export Button
+        self.export_button = Button(self.details_frame, text="Export...",
+                                    font="Arial 12 bold", fg="white", bg="#003366", width="10")
+        self.export_button.grid(row=5, column=0)
+
+    def close_results(self, partner):
+        # Put stats back to normal...
+        partner.results_button.config(state=NORMAL)
+        self.results_box.destroy()
+
 
 
 # main routine
