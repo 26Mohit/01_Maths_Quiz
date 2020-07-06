@@ -7,37 +7,15 @@ import random
 class Quiz:
     def __init__(self):
         # Formatting variables...
-        self.quiz_results_list = [10, 30]
+        self.quiz_results_list = [4, 6]
 
         # In actual program this is blank and is populated with user calculation
-        self.round_results_list = ['copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $38'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $38',
-                                 'lead ($0) | lead ($0) | copper ($3) - Cost: $15 | Payback: $3 | Current Balance: $26'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $38',
-                                 'lead ($0) | lead ($0) | copper ($3) - Cost: $15 | Payback: $3 | Current Balance: $26',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $23'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $38',
-                                 'lead ($0) | lead ($0) | copper ($3) - Cost: $15 | Payback: $3 | Current Balance: $26',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $23',
-                                 'copper ($3) | copper ($3) | silver ($6) - Cost: $15 | Payback: $12 | Current Balance: $20'
-                                 'copper ($3) | silver ($6) | silver ($6) - Cost: $15 | Payback: $15 | Current Balance: $50',
-                                 'lead ($0) | silver ($6) | lead ($0) - Cost: $15 | Payback: $6 | Current Balance: $41',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $38',
-                                 'lead ($0) | lead ($0) | copper ($3) - Cost: $15 | Payback: $3 | Current Balance: $26',
-                                 'copper ($3) | silver ($6) | copper ($3) - Cost: $15 | Payback: $12 | Current Balance: $23',
-                                 'copper ($3) | copper ($3) | silver ($6) - Cost: $15 | Payback: $12 | Current Balance: $20',
-                                 'copper ($3) | silver ($6) | lead ($0) - Cost: $15 | Payback: $9 | Current Balance: $14']
+        self.round_results_list = ['5 ÷ 5 = | correct | you entered:1 | score:1\n'
+                                    '2 × 12 = | correct | you entered:24 | score:2\n'
+                                    '2 × 7 = | incorrect | you entered:15 | the correct answer:14 | score:2\n'
+                                    '9 × 7 = | correct | you entered:63 | score:3\n'
+                                    '7 × 2 = | correct | you entered:14 | score:4\n'
+                                    '4 × 7 = | incorrect | you entered:12 | the correct answer:28 | score:4']
 
 
         self.quiz_frame = Frame()
@@ -154,7 +132,7 @@ class QuizResults:
         self.export_button = Button(self.details_frame, text="Export...",
                                     font="Arial 12 bold", fg="white", bg="#003366", width="10"
                                     , command=lambda: self.export(quiz_history, quiz_results))
-        self.export_button.grid(row=5, column=0)
+        self.export_button.grid(row=5, column=0, pady=10)
 
     def close_results(self, partner):
         # Put stats back to normal...
