@@ -20,7 +20,7 @@ class Start:
         levels = 2
 
         # retrieve selected range
-        lowest = 1
+        lowest = 0
         highest = 12
 
         Quiz(self, levels, selected_questions, lowest, highest)
@@ -159,7 +159,7 @@ class Quiz:
         # Generate numbers according to the values entered by user
         # Generate questions according to the level user chose
 
-        num_1 = random.randint(lowest, highest)
+        num_1 = random.randint(1, highest)
         num_2 = random.randint(lowest, highest)
 
         if problems_generator == 1:
@@ -186,12 +186,12 @@ class Quiz:
             if level == '*':
                 display_question = "{} {} {} = ".format(num_1, display_sign, num_2)
             else:
-                display_question = "{} {} {} = ".format(num_3, display_sign, num_2)
+                display_question = "{} {} {} = ".format(num_3, display_sign, num_1)
 
             if display_sign == "×":
                 question = "{} {} {}".format(num_1, level, num_2)
             else:
-                question = "{} / {} ".format(num_3, num_2)
+                question = "{} / {} ".format(num_3, num_1)
 
             var_correct = eval(question)
             var_correct = int(var_correct)
