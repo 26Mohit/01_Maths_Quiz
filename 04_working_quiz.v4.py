@@ -17,7 +17,7 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 10
-        levels = 2
+        levels = 3
 
         # retrieve selected range
         lowest = 0
