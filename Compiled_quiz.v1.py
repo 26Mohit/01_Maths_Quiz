@@ -392,6 +392,9 @@ class Quiz:
                                    bg="#003366", fg="white")
         self.results_button.grid(row=5, column=0, padx=2, pady=10)
 
+        # Disable Results button
+        self.results_button.config(state=DISABLED)
+
         self.quit_button = Button(self.buttons_frame, text="End Quiz",
                                   font="Arial 15 bold", command=self.to_end,
                                   bg="#EA6B66", fg="white")
@@ -532,6 +535,7 @@ class Quiz:
         selected_questions = self.quiz_results_list[1]
 
         if questions == 0:
+            self.results_button.config(state=NORMAL)
             self.next_button.config(state=DISABLED)
             self.submit_button.config(text="Quiz Ended")
             if selected_questions - score == 0:
@@ -640,13 +644,13 @@ class QuizResults:
 
         # To Export <instruction>  (row 1)
         self.export_instructions = Label(self.results_frame,
-                                         text="Here are your quiz results "
+                                         text="Here are your quiz results.\n"
                                               "Please use the "
                                               "Export button to access the results "
                                               "of each round that you played ",
-                                         wrap=250,
+                                         wrap=300,
                                          font="arial 10 italic",
-                                         justify=LEFT, width=40, fg="green",
+                                         justify=CENTER, width=40, fg="green",
                                          padx=10, pady=10)
         self.export_instructions.grid(row=1)
 
@@ -664,22 +668,22 @@ class QuizResults:
 
         # Correct answers (row 2.1)
         self.correct_ans_label = Label(self.details_frame, font=heading,
-                                       text="Correct Answers:", fg="#00CC00", anchor="e")
+                                       text="Correct Answers:", anchor="e")
         self.correct_ans_label.grid(row=1, column=0, padx=0)
 
         self.correct_ans_label = Label(self.details_frame, font=content,
                                        text="{}"
-                                       .format(quiz_results[0]), anchor="w")
+                                       .format(quiz_results[0]), fg="#00CC00", anchor="w")
         self.correct_ans_label.grid(row=1, column=1, padx=0)
 
         # Wrong Answers (row 2.2)
         self.wrong_ans_label = Label(self.details_frame, font=heading,
-                                     text="Wrong Answers: ", fg="#ff3333", anchor="e")
+                                     text="Wrong Answers: ", anchor="e")
         self.wrong_ans_label.grid(row=3, column=0, padx=0)
 
         self.wrong_ans_label = Label(self.details_frame, font=content,
                                      text="{}"
-                                     .format(quiz_results[1] - quiz_results[0]), anchor="w")
+                                     .format(quiz_results[1] - quiz_results[0]), fg="#ff3333", anchor="w")
         self.wrong_ans_label.grid(row=3, column=1, padx=0)
 
         # Percentage (row 2.3)
@@ -695,7 +699,7 @@ class QuizResults:
         # Dismiss button (row 3)
         self.dismiss_button = Button(self.details_frame, text="Dismiss",
                                      font="Arial 12 bold",
-                                     width=10, bg="#660000", fg="white",
+                                     width=10, bg="#EA6B66", fg="white",
                                      command=partial(self.close_results, partner))
         self.dismiss_button.grid(row=5, column=1, pady=10)
 
@@ -786,7 +790,7 @@ class Export:
         self.save_button.grid(row=0, column=0)
 
         self.cancel_button = Button(self.save_cancel_frame, text="Cancel", font="Arial 15 bold",
-                                  bg="#660000", fg="white",
+                                  bg="#EA6B66", fg="white",
                                     command=partial(self.close_export, partner))
         self.cancel_button.grid(row=0, column=1)
 
