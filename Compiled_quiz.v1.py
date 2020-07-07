@@ -323,11 +323,11 @@ class Quiz:
                                 pady=10)
         self.Mode_label.grid(row=0)
         if levels == 1:
-            self.Mode_label.config(text="Quiz (Easy Mode)")
+            self.Mode_label.config(text="Quiz (Easy Mode)", fg="#00CCCC")
         elif levels == 2:
-            self.Mode_label.config(text="Quiz (Medium Mode)")
+            self.Mode_label.config(text="Quiz (Medium Mode)", fg="#00CC00")
         elif levels == 3:
-            self.Mode_label.config(text="Quiz (Hard Mode)")
+            self.Mode_label.config(text="Quiz (Hard Mode)", fg="#ff3333")
 
         # Heading row 1
         self.heading_label = Label(self.quiz_frame, text=" Please, enter an answer in the white space below  and"
@@ -499,7 +499,6 @@ class Quiz:
         # Set questions to adjust questions
         self.num_questions.set(questions)
 
-
     def check_answers(self):
         questions = self.num_questions.get()
         # adjust the score
@@ -550,7 +549,6 @@ class Quiz:
                 self.questions_label.config(text="Sorry, you failed to accomplished the quiz, work hard on these questions"
                                                  " and try better next time, thanks for playing.\n"
                                                  "your final score is {}/{}\n".format(score, selected_questions), fg="#ff0000")
-
 
     def to_end(self):
         root.destroy()
@@ -618,7 +616,6 @@ class Help:
 
 class QuizResults:
     def __init__(self, partner, quiz_history, quiz_results):
-        print(quiz_history)
 
         # disable help button
         partner.results_button.config(state=DISABLED)
@@ -667,7 +664,7 @@ class QuizResults:
 
         # Correct answers (row 2.1)
         self.correct_ans_label = Label(self.details_frame, font=heading,
-                                       text="Correct Answers:", anchor="e")
+                                       text="Correct Answers:", fg="#00CC00", anchor="e")
         self.correct_ans_label.grid(row=1, column=0, padx=0)
 
         self.correct_ans_label = Label(self.details_frame, font=content,
@@ -677,7 +674,7 @@ class QuizResults:
 
         # Wrong Answers (row 2.2)
         self.wrong_ans_label = Label(self.details_frame, font=heading,
-                                     text="Wrong Answers: ", anchor="e")
+                                     text="Wrong Answers: ", fg="#ff3333", anchor="e")
         self.wrong_ans_label.grid(row=3, column=0, padx=0)
 
         self.wrong_ans_label = Label(self.details_frame, font=content,
@@ -727,7 +724,7 @@ class QuizResults:
 
 class Export:
     def __init__(self, partner, quiz_history, all_quiz_results):
-        print(all_quiz_results)
+
         # disable export button
         partner.export_button.config(state=DISABLED)
 
