@@ -199,6 +199,7 @@ class Start:
         if has_errors == "yes":
             self.questions_entry.config(bg=error_back)
             self.questions_error_label.config(text=error_feedback)
+            self.select_button.config(state=DISABLED)
         else:
             self.questions_entry.config(bg="#57FF5C")
             # enable select button

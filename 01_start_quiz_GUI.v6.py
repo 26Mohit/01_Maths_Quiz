@@ -160,7 +160,7 @@ class Start:
 
         # Help Button
         self.help_button = Button(self.start_frame, text="How to play?",
-                                  bg="#808080", fg="white", command=lambda:(self.to_help()),
+                                  bg="#808080", fg="white",
                                   font=button_font, width=15, height=2)
         self.help_button.grid(row=12, column=0, pady=5)
 
@@ -199,6 +199,7 @@ class Start:
         if has_errors == "yes":
             self.questions_entry.config(bg=error_back)
             self.questions_error_label.config(text=error_feedback)
+            self.select_button.config(state=DISABLED)
         else:
             self.questions_entry.config(bg="#57FF5C")
             # enable select button
