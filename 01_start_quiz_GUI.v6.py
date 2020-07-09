@@ -279,8 +279,6 @@ class Start:
 
         Quiz(self, levels, selected_questions, lowest, highest)
 
-        # hide start up window
-        self.start_frame.destroy()
 
 
 class Quiz:

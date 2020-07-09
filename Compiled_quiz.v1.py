@@ -279,15 +279,16 @@ class Start:
 
         Quiz(self, levels, selected_questions, lowest, highest)
 
-        # hide start up window
-        self.start_frame.destroy()
-
     def to_help(self):
         get_help = Help(self)
 
 
 class Quiz:
     def __init__(self, partner, levels, selected_questions, lowest, highest):
+
+        partner.easy_level_button.config(state=DISABLED)
+        partner.medium_level_button.config(state=DISABLED)
+        partner.hard_level_button.config(state=DISABLED)
 
         # initialise variables
         self.num_questions = IntVar()
@@ -375,7 +376,8 @@ class Quiz:
 
         # selected questions Label (row 3)
 
-        self.questions_label = Label(self.quiz_frame, text="Welcome, your selected number of questions: {}"
+        self.questions_label = Label(self.quiz_frame, text="All the Best \n "
+                                                           "your selected number of questions: {}\n"
                                                            " and selected range of numbers: {}-{} ".format(selected_questions, lowest,
                                                                                                            highest),
                                      font="Arial 12 bold",
@@ -396,7 +398,7 @@ class Quiz:
         self.results_button.config(state=DISABLED)
 
         self.quit_button = Button(self.buttons_frame, text="End Quiz",
-                                  font="Arial 15 bold", command=self.to_end,
+                                  font="Arial 15 bold", command=partial(self.to_end, partner),
                                   bg="#EA6B66", fg="white")
         self.quit_button.grid(row=5, column=1, padx=5, pady=5)
 
@@ -554,8 +556,11 @@ class Quiz:
                                                  " and try better next time, thanks for playing.\n"
                                                  "your final score is {}/{}\n".format(score, selected_questions), fg="#ff0000")
 
-    def to_end(self):
-        root.destroy()
+    def to_end(self, partner):
+      partner.easy_level_button.config(state=NORMAL)
+      partner.medium_level_button.config(state=NORMAL)
+      partner.hard_level_button.config(state=NORMAL)
+      self.quiz_box.destroy()
 
     def to_help(self):
         get_help = Help(self)
@@ -566,6 +571,7 @@ class Quiz:
 
 class Help:
     def __init__(self,partner):
+
 
         # disable help button
         partner.help_button.config(state=DISABLED)

@@ -16,8 +16,8 @@ class Start:
     def to_play(self):
 
         # retrieve selected questions
-        selected_questions = 10
-        levels = 3
+        selected_questions = 5
+        levels = 2
 
         # retrieve selected range
         lowest = 0
