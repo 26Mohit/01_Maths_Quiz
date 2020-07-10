@@ -1,0 +1,24 @@
+Quiz Results
+
+Score: 5/5
+Correct answers:5
+Wrong answers:0
+Percentage:100.0%
+
+Round Details
+
+6 × 3 = 
+Correct | You entered:18 | Score:1
+
+0 ÷ 8 = 
+Correct | You entered:0 | Score:2
+
+3 ÷ 1 = 
+Correct | You entered:3 | Score:3
+
+8 × 3 = 
+Correct | You entered:24 | Score:4
+
+88 ÷ 11 = 
+Correct | You entered:8 | Score:5
+

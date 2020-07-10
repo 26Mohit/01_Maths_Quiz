@@ -17,11 +17,11 @@ class Start:
 
         # retrieve selected questions
         selected_questions = 5
-        levels = 2
+        levels = 3
 
         # retrieve selected range
         lowest = 0
-        highest = 12
+        highest = 10
 
         Quiz(self, levels, selected_questions, lowest, highest)
 
